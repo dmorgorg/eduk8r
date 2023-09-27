@@ -10,8 +10,13 @@
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "^2.0.0",
 		"@sveltejs/kit": "^1.20.4",
+		"sass": "^1.68.0",
 		"svelte": "^4.0.5",
+		"svelte-preprocess": "^5.0.4",
 		"vite": "^4.4.2"
 	},
-	"type": "module"
+	"type": "module",
+	"dependencies": {
+		"katex": "^0.16.9"
+	}
 }
