@@ -1,0 +1,29 @@
+@import url('https://fonts.cdnfonts.com/css/carolena-narashy');
+@import url('https://fonts.cdnfonts.com/css/unseeness');
+@import url('https://fonts.cdnfonts.com/css/katherine-script');
+/* @import url('https://fonts.cdnfonts.com/css/alkes'); */
+
+@font-face {
+    font-family: "AlkesLightIt";
+    src: url($lib/fonts/AlkesLightIt.TTF) format("truetype");
+}
+@font-face {
+    font-family: "AlkesRgIt";
+    src: url($lib/fonts/AlkesRgIt.TTF) format("truetype");
+}
+@font-face {
+    font-family: "CBYG";
+    src: url($lib/fonts/CoveredByYourGrace.ttf) format("truetype");
+}
+@font-face {
+    font-family: "Kaushan";
+    src: url($lib/fonts/KaushanScript-Regular.ttf) format("truetype");
+}
+@font-face {
+    font-family: "Valittey";
+    src: url($lib/fonts/ValitteyDemo.otf) format("truetype");
+}
+@font-face {
+    font-family: "Shitake";
+    src: url($lib/fonts/Shitake.otf) format("truetype");
+}
