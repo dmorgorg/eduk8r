@@ -1,21 +1,21 @@
 <script>
-	let viewCalc = true
-	let selectedOption = 'percentages'
-	let pv = '87'
-	let dv = '33'
-	let popnSize = '100000'
-	let deathsSize = '100'
-	let numberVaccinated
-	let numberUnvaccinated
-	let vaccinatedDeaths
-	let unvaccinatedDeaths
+	let viewCalc = true;
+	let selectedOption = 'percentages';
+	let pv = '87';
+	let dv = '33';
+	let popnSize = '100000';
+	let deathsSize = '100';
+	let numberVaccinated;
+	let numberUnvaccinated;
+	let vaccinatedDeaths;
+	let unvaccinatedDeaths;
 
-	let result
+	let result;
 
 	const options = [
 		{ value: 'percentages', label: 'Percentages' },
 		{ value: 'numbers', label: 'Percentages and Numbers' }
-	]
+	];
 
 	// function percentageResult()) {
 	// 	let result = ((100 - dv)/(100-pv)*pv/dv).toFixed(2)
@@ -38,7 +38,8 @@
 							bind:group={selectedOption}
 							value={option.value}
 							checked={selectedOption === option.value}
-							style="vertical-align: top" />
+							style="vertical-align: top"
+						/>
 						{option.label}
 					</label>
 				{/each}
@@ -49,8 +50,8 @@
 					(
 					<strong>Note</strong>
 					that population numbers are not required for the result but are useful to simplify the manual
-					calculation below &mdash; and to avoid the use of algebra for those who have been out of school for
-					a while!)
+					calculation below &mdash; and to avoid the use of algebra for those who have been out of school
+					for a while!)
 				</div>
 				<p></p>
 			{/if}
@@ -93,7 +94,8 @@
 			{#if selectedOption === 'percentages'}
 				<div class="resultbox">
 					{#if pv && dv && Number(pv) < 100 && Number(dv) < 100}Death for the unvaccinated is <span
-							class="result">
+							class="result"
+						>
 							{Number(
 								(((100 - Number(dv)) * Number(pv)) / (100 - Number(pv)) / Number(dv)).toFixed(2)
 							)}
@@ -104,7 +106,8 @@
 			{:else}
 				<div class="resultbox">
 					{#if pv && dv && Number(pv) < 100 && Number(dv) < 100}Death for the unvaccinated is <span
-							class="result">
+							class="result"
+						>
 							{Number(
 								(((100 - Number(dv)) * Number(pv)) / (100 - Number(pv)) / Number(dv)).toFixed(2)
 							)}
@@ -276,7 +279,6 @@
 		font-style: italic;
 	}
 
-
 	input[type='radio'] {
 		appearance: none;
 		width: 20px;
@@ -328,7 +330,7 @@
 		}
 
 		.card {
-			border-width: var(--border-size-2);
+			border-width: var(--border-size-3);
 			font-size: 100%;
 			margin-inline: auto;
 			margin-block-start: 0;
@@ -347,6 +349,5 @@
 			padding: 0.5rem;
 			padding-block: 0.25rem;
 		}
-		
 	}
 </style>

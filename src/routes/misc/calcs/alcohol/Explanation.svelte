@@ -24,7 +24,8 @@
 		That's pretty straightforward. But how to calculate the volume if you pour yourself a glass of
 		wine, or of Scotch, at home? You may have a measuring cup, or jug, in the kitchen but they are
 		not so accurate for small measurements in millilitres &ndash; and drinking a fine single malt
-		out of a measuring cup does seem like sacrilege. If you have a digital kitchen scale, you can <strong>
+		out of a measuring cup does seem like sacrilege. If you have a digital kitchen scale, you can <strong
+		>
 			weigh
 		</strong>
 		the drink &ndash; and then convert the weight to volume, using the specific gravity of the drink.
@@ -53,8 +54,8 @@
 	<p>
 		<strong>Spirits,</strong>
 		with their high alcohol content, have specific gravities in the range of 0.940 to 0.980. So using
-		the 1 g = 1 ml can cardduce up the 6% error in the volume which might be significant if you're considering
-		whether another drink might put you over your weekly allowance.
+		the 1&nbsp;g&nbsp;=&nbsp;1&nbsp;ml can add up the 6% error in the volume which might be significant
+		if you're considering whether another drink might put you over your weekly allowance.
 	</p>
 	<p>Now, the calculation is as follows:</p>
 	<p>
@@ -86,20 +87,21 @@
 	/* .drawn1 {
 		border-radius: var(--radius-drawn-1);
 	} */
-	.drawn2 {
+	/* .drawn2 {
 		border-radius: var(--radius-drawn-2);
 	}
 	.drawn3 {
 		border-radius: var(--radius-drawn-3);
-	}
+	} */
 
 	@media (max-width: 600px) {
 		.card {
-			border-width: var(--border-size-2);
-			font-size: 100%;
+			border-radius: 0.375rem;
+			border: 2px solid #a00;
+			font-size: 125%;
 			margin-inline: auto;
 			margin-block-start: 0;
-			width: 100%;
+			width: 95%;
 			min-width: 0;
 			max-width: 100%;
 			/* background: yellow; */

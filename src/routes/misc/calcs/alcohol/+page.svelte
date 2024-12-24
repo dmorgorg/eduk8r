@@ -47,83 +47,86 @@
 		</button>
 		<div class:hide={viewCalc} class:show={!viewCalc}><Explanation /></div>
 		<div class:show={viewCalc} class:hide={!viewCalc}></div>
-		<div class="card drawn1 calc">
-			<div class="radioGroup">
-				<h4>Are you starting with a volume or a weight?</h4>
-				{#each options as option}
-					<label class="radio">
-						<input
-							type="radio"
-							name="radioGroup"
-							bind:group={selectedOption}
-							value={option.value}
-							checked={selectedOption === option.value}
-							style="vertical-align: top"
-						/>
-						{option.label}
-					</label>
-				{/each}
-			</div>
-			<section class="form">
+		{#if viewCalc}
+			<div class="card drawn1 calc">
+				<div class="radioGroup">
+					<h4>Are you starting with a volume or a weight?</h4>
+					{#each options as option}
+						<label class="radio">
+							<input
+								type="radio"
+								name="radioGroup"
+								bind:group={selectedOption}
+								value={option.value}
+								checked={selectedOption === option.value}
+								style="vertical-align: top"
+							/>
+							{option.label}
+						</label>
+					{/each}
+				</div>
+				<section class="form">
+					{#if selectedOption === 'weight'}
+						<div class="label">
+							Weight, <strong>W</strong>
+						</div>
+						<div class="input">
+							<input type="number" id="weight" bind:value={weight} />
+							<span>g</span>
+						</div>
+						<div class="label">
+							Specific Gravity, <strong>SG</strong>
+						</div>
+						<div class="input">
+							<input type="number" id="sg" bind:value={sg} size="10" />
+						</div>
+					{:else}
+						<div class="label">
+							Volume, <strong>V</strong>
+						</div>
+						<div class="input">
+							<input type="number" id="volume" bind:value={volume} size="10" />
+							<span>ml</span>
+						</div>
+					{/if}
+
+					<div class="label">
+						Alcohol by volume, <strong>ABV</strong>
+					</div>
+
+					<div class="input">
+						<input type="number" id="abv" bind:value={abv} size="10" />
+						<span>%</span>
+					</div>
+				</section>
+
 				{#if selectedOption === 'weight'}
-					<div class="label">
-						Weight, <strong>W</strong>
+					<div class="formulabox">
+						Weight (g) &divide; SG &times; ABV (%) &divide; 1000 = UK Units
 					</div>
-					<div class="input">
-						<input type="number" id="weight" bind:value={weight} />
-						<span>g</span>
-					</div>
-					<div class="label">
-						Specific Gravity, <strong>SG</strong>
-					</div>
-					<div class="input">
-						<input type="number" id="sg" bind:value={sg} size="10" />
+					<div class="resultbox">
+						{#if weight && sg && abv}
+							{weight} &divide; {sg} &times; {abv} &divide; 1000 &equals;
+							<span class="result">{weightResult()}</span>
+							UK Units
+						{/if}
 					</div>
 				{:else}
-					<div class="label">
-						Volume, <strong>V</strong>
-					</div>
-					<div class="input">
-						<input type="number" id="volume" bind:value={volume} size="10" />
-						<span>ml</span>
+					<div class="formulabox">Volume (ml) &times; ABV (%) &divide; 1000 = UK Units</div>
+					<div class="resultbox">
+						{#if volume && abv}
+							{volume} &times; {abv} &divide; 1000 &equals;
+							<span class="result">{volumeResult()}</span>
+							UK Units
+						{/if}
 					</div>
 				{/if}
-
-				<div class="label">
-					Alcohol by volume, <strong>ABV</strong>
-				</div>
-
-				<div class="input">
-					<input type="number" id="abv" bind:value={abv} size="10" />
-					<span>%</span>
-				</div>
-			</section>
+			</div>
 
 			{#if selectedOption === 'weight'}
-				<div class="formulabox">
-					Weight (g) &divide; SG &times; ABV (%) &divide; 1000 = UK Units
-				</div>
-				<div class="resultbox">
-					{#if weight && sg && abv}
-						{weight} &divide; {sg} &times; {abv} &divide; 1000 &equals;
-						<span class="result">{weightResult()}</span>
-						UK Units
-					{/if}
-				</div>
-			{:else}
-				<div class="formulabox">Volume (ml) &times; ABV (%) &divide; 1000 = UK Units</div>
-				<div class="resultbox">
-					{#if volume && abv}
-						{volume} &times; {abv} &divide; 1000 &equals;
-						<span class="result">{volumeResult()}</span>
-						UK Units
-					{/if}
-				</div>
+				<h3 class="sg">Click below for a list of specific gravities</h3>
+				<div class="poison"><SGs /></div>
 			{/if}
-		</div>
-		{#if selectedOption === 'weight'}
-			<h3 class="sg">Click below for a list of specific gravities</h3>
-			<div class="poison"><SGs /></div>
 		{/if}
 	</div>
 </div>
@@ -307,10 +310,8 @@
 			background: #a00;
 			border: var(--border-size-3) solid #a00;
 			border-radius: 0;
-			
 		}
 
-		
 		.card {
 			/* border-width: var(--border-size-2); */
 			border-radius: 0.375rem;
