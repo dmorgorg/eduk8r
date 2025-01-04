@@ -2,48 +2,45 @@
 	/**
 	 * @type {any}
 	 */
-	let mpgImp = $state()
+	let mpgImp = $state();
 	/**
 	 * @type {any}
 	 */
-	let mpgUS = $state()
+	let mpgUS = $state();
 	/**
 	 * @type {any}
 	 */
-	let kpl = $state()
+	let kpl = $state();
 	/**
 	 * @type {any}
 	 */
-	let lp100k = $state()
+	let lp100k = $state();
 
 	function reset() {
-		mpgImp = ''
-		mpgUS = ''
-		kpl = ''
-		lp100k = ''
+		mpgImp = '';
+		mpgUS = '';
+		kpl = '';
+		lp100k = '';
 	}
 	function mpgImpChange() {
-		mpgUS = (mpgImp / 1.20095).toFixed(2)
-		kpl = ((mpgImp * 1.609344) / 4.54609).toFixed(2)
-		lp100k = (100 / kpl).toFixed(2)
-		// mpgUS = mpgUS.toFixed(2)
+		mpgUS = (mpgImp / 1.20095).toFixed(2);
+		kpl = ((mpgImp * 1.609344) / 4.54609).toFixed(2);
+		lp100k = (100 / kpl).toFixed(2);
 	}
 	function mpgUSChange() {
-		mpgImp = (mpgUS * 1.20095).toFixed(2)
-		kpl = ((mpgUS * 1.20095 * 1.609344) / 4.54609).toFixed(2)
-		lp100k = (100 / kpl).toFixed(2)
-		// mpgImp = mpgImp.toFixed(2)
+		mpgImp = (mpgUS * 1.20095).toFixed(2);
+		kpl = ((mpgUS * 1.20095 * 1.609344) / 4.54609).toFixed(2);
+		lp100k = (100 / kpl).toFixed(2);
 	}
 	function kplChange() {
-		mpgImp = ((kpl / 1.609344) * 4.54609).toFixed(2)
-		mpgUS = (mpgImp / 1.20095).toFixed(2)
-		lp100k = (100 / kpl).toFixed(2)
-		// kpl = kpl.toFixed(2)
+		mpgImp = ((kpl / 1.609344) * 4.54609).toFixed(2);
+		mpgUS = (mpgImp / 1.20095).toFixed(2);
+		lp100k = (100 / kpl).toFixed(2);
 	}
 	function lp100kChange() {
-		kpl = (100 / lp100k).toFixed(2)
-		mpgImp = ((100 / lp100k / 1.609344) * 4.54609).toFixed(2)
-		mpgUS = (mpgImp / 1.20095).toFixed(2)
+		kpl = (100 / lp100k).toFixed(2);
+		mpgImp = ((100 / lp100k / 1.609344) * 4.54609).toFixed(2);
+		mpgUS = (mpgImp / 1.20095).toFixed(2);
 		// lp100k = lp100k.toFixed(2)
 	}
 </script>
@@ -86,7 +83,7 @@
 <style>
 	section.form {
 		display: grid;
-		grid-template-columns: 1.5fr 1fr;
+		grid-template-columns: 1.25fr 1fr;
 		row-gap: 0.5rem;
 		column-gap: 1rem;
 	}
@@ -99,27 +96,8 @@
 		align-self: center;
 	}
 	.form input {
-		/* width: 6rem; */
 		font-size: 1.5rem;
-
 		font-style: italic;
-	}
-	.outer {
-		background: #ddd;
-		margin: 0;
-		padding: 1rem;
-		min-height: 100vh;
-	}
-	.wrapper {
-		display: flex;
-		justify-content: start;
-		align-items: center;
-		flex-direction: column;
-		margin-inline: auto;
-		text-align: center;
-		max-width: 1024px;
-		padding: var(--size-3);
-		max-width: 50rem;
 	}
 
 	.wrapper h1.card {
@@ -127,17 +105,13 @@
 		border: none;
 		box-shadow: none;
 		color: black;
-
-		font-family: 'CBYG', cursive;
 		font-family: 'Kaushan', cursive;
-
 		font-size: var(--font-size-7);
 		font-weight: bold;
 		letter-spacing: 0.125rem;
 		padding-inline: 2rem;
 		margin: 0;
 		-webkit-text-stroke: black 0.5px;
-		/* text-stroke: black 0.5px; */
 		word-spacing: 0;
 	}
 
@@ -190,6 +164,25 @@
 		display: none;
 	}
 
+	.outer {
+		background: #ddd;
+		margin: 0;
+		padding: 1rem;
+		min-height: 100vh;
+
+		.wrapper {
+			display: flex;
+			justify-content: start;
+			align-items: center;
+			flex-direction: column;
+			margin-inline: auto;
+			/* text-align: center; */
+			/* max-width: 1024px; */
+			padding: var(--size-3);
+			/* max-width: 50rem; */
+		}
+	}
+
 	@media (max-width: 600px) {
 		.outer {
 			padding: 0.5rem;
@@ -200,8 +193,8 @@
 		}
 		.wrapper h1 {
 			/* border: var(--border-size-2) solid #a00; */
-			font-family: 'Katherine Script', sans-serif;
-			font-size: var(--font-size-2);
+			/* font-family: 'Katherine Script', sans-serif; */
+			font-size: var(--font-size-1);
 		}
 
 		button {
@@ -214,10 +207,7 @@
 			font-size: 100%;
 			margin-inline: auto;
 			margin-block-start: 0;
-			/* width: 100%; */
 			min-width: 0;
-			/* max-width: 100%; */
-			/* background: yellow; */
 			padding-inline: 0.5rem;
 		}
 	}

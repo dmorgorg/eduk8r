@@ -3,6 +3,7 @@
 	<a href="/misc/calcs/alcohol">Alcohol Units Calculator</a>
 	<a href="/misc/calcs/vaccine">Vaccine Efficacy Calculator</a>
 	<a href="/misc/calcs/fuelConverter">Metric/Imperial Fuel Converter</a>
+	<a href="/misc/wordle8r">Wordle8r</a>
 </div>
 
 <style>

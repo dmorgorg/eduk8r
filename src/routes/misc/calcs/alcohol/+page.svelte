@@ -313,7 +313,6 @@
 		}
 
 		.card {
-			/* border-width: var(--border-size-2); */
 			border-radius: 0.375rem;
 			border: 2px solid #a00;
 			font-size: 150%;
@@ -324,7 +323,6 @@
 			padding-inline: 0.5rem;
 		}
 		.calc {
-			/* width: 100%; */
 			margin-inline: auto;
 		}
 		.resultbox {

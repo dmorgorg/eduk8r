@@ -14,7 +14,7 @@
 
 	const options = [
 		{ value: 'percentages', label: 'Percentages' },
-		{ value: 'numbers', label: 'Percentages and Numbers' }
+		{ value: 'numbers', label: 'Percentages with numbers' }
 	];
 
 	// function percentageResult()) {
@@ -25,11 +25,11 @@
 
 <div class="outer">
 	<div class="wrapper">
-		<h1 class="card">Vaccine Efficacy Calculator</h1>
+		<h1>Vaccine Efficacy Calculator</h1>
 
 		<div class="card">
+			<h4>Percentages only? Or percentages with population numbers?</h4>
 			<div class="radioGroup">
-				<h4>Percentages only or percentages and population numbers?</h4>
 				{#each options as option}
 					<label class="radio">
 						<input
@@ -187,9 +187,9 @@
 </div>
 
 <style>
-	.calc h4 {
+	/* .calc h4 {
 		margin: 0;
-	}
+	} */
 	.calc ul {
 		list-style-type: none;
 		padding-inline-start: 0;
@@ -248,7 +248,7 @@
 		font-size: var(--font-size-fluid-0);
 	}
 
-	.wrapper h1.card {
+	.wrapper h1 {
 		background-color: inherit;
 		border: none;
 		box-shadow: none;
@@ -302,8 +302,9 @@
 	}
 	label.radio {
 		display: inline-block;
-		margin-block-end: 2rem;
+		margin-block-end: 0.5rem;
 		margin-inline: 2rem;
+		border: 1px solid #080;
 	}
 
 	input[type='number'] {
@@ -315,6 +316,10 @@
 		-webkit-appearance: none;
 		display: none;
 	}
+	h4 {
+		font-size: 1.25rem;
+		margin-block-start: 0;
+	}
 
 	@media (max-width: 600px) {
 		.outer {
@@ -325,15 +330,16 @@
 			padding: var(--size-1);
 		}
 		.wrapper h1 {
-			font-family: 'Katherine Script', sans-serif;
-			font-size: var(--font-size-2);
+			font-family: 'Shitake';
+			font-size: var(--font-size-5);
 		}
 
 		.card {
 			border-width: var(--border-size-3);
-			font-size: 100%;
+			font-size: 1.25rem;
 			margin-inline: auto;
-			margin-block-start: 0;
+			margin-block-start: 1rem;
+			padding-block: 1rem;
 			min-width: 0;
 			padding-inline: 0.5rem;
 		}
@@ -341,8 +347,16 @@
 			width: 85%;
 			margin-inline: auto;
 		}
-		.resultbox {
+		/* .resultbox {
 			font-size: 120%;
+		} */
+		.radioGroup {
+			border: 1px solid red;
+			padding-block-start: 0;
+		}
+		.radioGroup h4 {
+			font-size: 1.25rem;
+			margin-block-start: 0;
 		}
 		.result {
 			font-size: 1.25rem;
