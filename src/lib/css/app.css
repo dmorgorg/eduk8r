@@ -1,5 +1,6 @@
 @import 'open-props/style';
-
+@import 'open-props/normalize';
+@import 'open-props/buttons';
 
 html,
 body {
@@ -10,4 +11,42 @@ body {
 
 * {
 	box-sizing: border-box;
+}
+
+body {
+	/* background-image: var(--gradient-18); */
+	background-color: #eee;
+	height: 100vh;
+	margin: 0;
+	min-height: 100vh;
+	padding: 0;
+	width: 100vw;
+}
+
+.mt-0 {
+	margin-top: 0;
+}
+.mt-1 {
+	margin-top: 0.25rem;
+}
+.mt-2 {
+	margin-top: 0.5rem;
+}
+.mt-3 {
+	margin-top: 0.75rem;
+}
+.mt-4 {
+	margin-top: 1rem;
+}
+.pt-1 {
+	padding-top: 0.25rem;
+}
+.pt-2 {
+	padding-top: 0.5rem;
+}
+.pt-3 {
+	padding-top: 0.75rem;
+}
+.pt-4 {
+	padding-top: 1rem;
 }
