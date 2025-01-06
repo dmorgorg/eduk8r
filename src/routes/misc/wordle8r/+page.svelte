@@ -1,10 +1,25 @@
 <script>
+	import { fade } from 'svelte/transition';
 	import { onMount } from 'svelte';
 	import { words } from './words.js';
+	import {
+		moveCursorToEnd,
+		handleKeyDown,
+		handleInput,
+		isRowEmpty,
+		isRowComplete,
+		doesWordExist,
+		areAllCurrentRowStatusesSet,
+		setStatus,
+		getStatusString
+	} from './functions.js';
 	import '$lib/css/app.css';
+	import { get } from 'svelte/store';
 
 	let currentRow = $state(0);
 	let grid = $state(Array.from({ length: 6 }, () => Array(5).fill('')));
+	let statuses = $state(Array.from({ length: 6 }, () => Array(5).fill('')));
+	let wordExists = $state(Array(6).fill(false));
 
 	onMount(() => {
 		const firstInput = document.querySelector(`input[name="00"]`);
@@ -22,11 +37,45 @@
 					<div class="row mt-4">
 						{#each Array.from(Array(5).keys()) as col (col)}
 							<div class="cell">
-								<div class="letter">
-									<input autocomplete="off" name={`${row}${col}`} type="text" maxlength="1" />
+								<div
+									class="letter"
+									class:exact={statuses[row][col] === 'x'}
+									class:near={statuses[row][col] === 'c'}
+									class:none={statuses[row][col] === 'o'}
+								>
+									<input
+										autocomplete="off"
+										name={`${row}${col}`}
+										type="text"
+										maxlength="1"
+										onclick={moveCursorToEnd(row, col)}
+										oninput={(event) => handleInput(event, grid, row, col)}
+										onkeydown={(event) => handleKeyDown(event, grid, row, col)}
+									/>
 								</div>
+
+								{#if isRowComplete(grid, row) && doesWordExist(grid, row, words) && !areAllCurrentRowStatusesSet(grid, row, statuses)}
+									<div class="buttons" transition:fade>
+										<button
+											class="exact mt-2"
+											onclick={() => setStatus(statuses, row, col, 'x')}
+											aria-label="Set to exact"
+										></button>
+										<button
+											class="near mt-2"
+											onclick={() => setStatus(statuses, row, col, 'c')}
+											aria-label="Set to close"
+										></button>
+										<button
+											class="none mt-2"
+											onclick={() => setStatus(statuses, row, col, 'o')}
+											aria-label="Set to absent"
+										></button>
+									</div>
+								{/if}
 							</div>
 						{/each}
+
 						{#if row < 5}
 							<button onclick={() => (currentRow = row + 1)}>Next</button>
 						{/if}
@@ -35,7 +84,7 @@
 			{/each}
 		</div>
 	</div>
-	<div class="right-column">right</div>
+	<div class="right-column"><div class="mt-4">{getStatusString(statuses, currentRow)}</div></div>
 </div>
 
 <style lang="scss">
@@ -51,13 +100,11 @@
 		display: flex;
 		flex-direction: column;
 		gap: 1rem;
-		border: 1px solid red;
+		// border: 1px solid red;
 
 		.row {
 			align-items: center;
 			display: flex;
-			gap: 0;
-			justify-content: start;
 		}
 
 		.cell {
@@ -105,13 +152,28 @@
 				outline: none;
 			}
 		}
+
+		button {
+			height: 2rem;
+			border: none;
+			box-shadow: none;
+			width: 100%;
+		}
+		.exact {
+			background-color: green;
+		}
+		.near {
+			background-color: #ffc040;
+		}
+		.none {
+			background-color: #aaa;
+		}
 	}
 
 	.right-column {
 		display: flex;
 		flex-direction: column;
 		gap: 1rem;
-		border: 1px solid red;
 	}
 	.show {
 		display: block;
