@@ -11,7 +11,8 @@
 		doesWordExist,
 		areAllCurrentRowStatusesSet,
 		setStatus,
-		getStatusString
+		getStatusString,
+		getGuess
 	} from './functions.js';
 	import '$lib/css/app.css';
 	import { get } from 'svelte/store';
@@ -19,7 +20,6 @@
 	let currentRow = $state(0);
 	let grid = $state(Array.from({ length: 6 }, () => Array(5).fill('')));
 	let statuses = $state(Array.from({ length: 6 }, () => Array(5).fill('')));
-	let wordExists = $state(Array(6).fill(false));
 
 	onMount(() => {
 		const firstInput = document.querySelector(`input[name="00"]`);
@@ -50,11 +50,11 @@
 										maxlength="1"
 										onclick={moveCursorToEnd(row, col)}
 										oninput={(event) => handleInput(event, grid, row, col)}
-										onkeydown={(event) => handleKeyDown(event, grid, row, col)}
+										onkeydown={(event) => handleKeyDown(event, grid, row, col, statuses)}
 									/>
 								</div>
 
-								{#if isRowComplete(grid, row) && doesWordExist(grid, row, words) && !areAllCurrentRowStatusesSet(grid, row, statuses)}
+								{#if isRowComplete(grid, row) && doesWordExist(grid, row, words) && !areAllCurrentRowStatusesSet(statuses, row)}
 									<div class="buttons" transition:fade>
 										<button
 											class="exact mt-2"
@@ -84,7 +84,14 @@
 			{/each}
 		</div>
 	</div>
-	<div class="right-column"><div class="mt-4">{getStatusString(statuses, currentRow)}</div></div>
+	<div class="right-column">
+		<div class="mt-4">
+			{#if areAllCurrentRowStatusesSet(statuses, currentRow)}
+				{getGuess(grid, currentRow)} <br />
+				{getStatusString(statuses, currentRow)}
+			{/if}
+		</div>
+	</div>
 </div>
 
 <style lang="scss">
