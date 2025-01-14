@@ -9,6 +9,7 @@ export function moveCursorToEnd(row, col) {
 // restrict inputs to only allow letters and backspace
 export function handleKeyDown(event, grid, row, col, statuses) {
 	const key = event.key;
+
 	if (!/^[a-zA-Z]$/.test(key) && key !== 'Backspace') {
 		event.preventDefault();
 	}
@@ -31,13 +32,14 @@ export function handleKeyDown(event, grid, row, col, statuses) {
 		}
 		// when backspacing, clear all the status entries for the row
 		statuses[row].fill('');
-		console.log(statuses[row]);
+		// console.log(statuses[row]);
 	}
 }
 
 export function handleInput(event, grid, row, col) {
 	const value = event.target.value.toLowerCase();
 	grid[row][col] = value;
+	event.target.value = event.target.value.toLowerCase();
 
 	// automatically move to the next input when the current input is filled
 	for (let i = 0; i < 5; i++) {
@@ -67,10 +69,6 @@ export function areAllCurrentRowStatusesSet(statuses, row) {
 	return statuses[row].every((cell) => cell !== '');
 }
 
-export function setStatus(statuses, row, col, status) {
-	statuses[row][col] = status;
-}
-
 export function setAllStatuses(statuses, row, status) {
 	statuses[row].fill(status);
 }
@@ -80,7 +78,8 @@ export function getStatusString(statuses, row) {
 }
 
 export function getGuess(grid, row) {
-	return grid[row].join('');
+	let guess = grid[row].join('');
+	return guess;
 }
 
 export function colorise(guess, target) {
@@ -137,4 +136,29 @@ export function colorise(guess, target) {
 	}
 
 	return c0 + c1 + c2 + c3 + c4;
+}
+
+export function setPossibles(possibles, row, guess, status) {
+	possibles[row].push({ guess, status });
+}
+
+// export function advanceRow(currentRow) {
+// 	currentRow++;
+// 	tick().then(() => {
+// 		const firstCol = document.querySelector(`input[name="${currentRow}0"]`);
+// 		if (firstCol) {
+// 			firstCol.focus();
+// 		}
+// 	});
+// }
+
+export function advanceRow(currentRow) {
+	currentRow++;
+	tick().then(() => {
+		const firstCol = document.querySelector(`input[name="${currentRow}0"]`);
+		if (firstCol) {
+			firstCol.focus();
+		}
+	});
+	return currentRow;
 }
