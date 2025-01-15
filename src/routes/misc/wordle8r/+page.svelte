@@ -65,7 +65,6 @@
 		for (let word of possibles[currentRow]) {
 			const wordStatusString = colorise(guess, word);
 			if (wordStatusString === status) {
-				console.log(word);
 				filteredPossibles.push(word);
 			}
 		}
@@ -133,7 +132,7 @@
 				</div>
 				{#if currentRow < 5 && currentRow === row && areAllCurrentRowStatusesSet(statuses, currentRow)}
 					<!-- {(filteredPossibles = Array.from(filteredPossibles))} -->
-					<button class="wide mt-4" onclick={advanceRow}> Guess... </button>
+					<button class="wide50 mt-4" onclick={advanceRow}> Guess... </button>
 				{/if}
 			{/each}
 		</div>
@@ -146,7 +145,7 @@
 				{showPossibles ? 'Hide' : 'Show'}...
 			</button>
 			{#if showPossibles}
-				<div class="scrollable-list">
+				<div class="scrollable-list mt-2">
 					{#each filteredPossibles as possible}
 						<div>{possible}</div>
 					{/each}
@@ -169,7 +168,7 @@
 		display: flex;
 		flex-direction: column;
 		gap: 1rem;
-		border: 1px solid red;
+		// border: 1px solid red;
 
 		.row {
 			align-items: center;
@@ -237,7 +236,7 @@
 		display: flex;
 		flex-direction: column;
 		gap: 1rem;
-		border: 1px solid red;
+		// border: 1px solid red;
 	}
 	.show {
 		display: block;
@@ -252,12 +251,23 @@
 		box-shadow: none;
 		width: 3rem;
 
-		&.wide {
+		&.wide50 {
 			border: 2px solid #333;
 			float: right;
 			font-size: 125%;
 			font-weight: 500;
 			margin-inline: 0.25rem;
+			padding: 1.25rem;
+			padding-inline: 2.5rem;
+			vertical-align: middle;
+			width: 50%;
+		}
+		&.wide {
+			border: 2px solid #333;
+			float: right;
+			font-size: 125%;
+			font-weight: 500;
+			// margin-inline: 0.25rem;
 			padding: 1.25rem;
 			padding-inline: 2.5rem;
 			vertical-align: middle;
@@ -267,9 +277,10 @@
 
 	.scrollable-list {
 		background-color: white;
-		max-height: 15rem;
-		overflow-y: auto;
 		border: 2px solid #333;
+		border-radius: 0.25rem;
+		max-height: 40vh;
+		overflow-y: auto;
 		padding: 0.5rem;
 		margin-top: 0.5rem;
 	}
