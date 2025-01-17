@@ -53,6 +53,24 @@ body {
 .mt-4 {
 	margin-top: 1rem;
 }
+.mt-5 {
+	margin-top: 1.25rem;
+}
+.pb-1 {
+	padding-block: 0.25rem;
+}
+.pb-2 {
+	padding-block: 0.5rem;
+}
+.pb-3 {
+	padding-block: 0.75rem;
+}
+.pb-4 {
+	padding-block: 1rem;
+}
+.pb-5 {
+	padding-block: 1.25rem;
+}
 .pt-1 {
 	padding-top: 0.25rem;
 }
