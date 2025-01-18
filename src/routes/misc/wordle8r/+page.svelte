@@ -90,110 +90,121 @@
 	// }
 </script>
 
-<div class="container pt-4">
-	<div class="left-column">
-		<a class="how-to-play" href="/misc/wordle8r/how-to-use"
+<div class="outer pt-4">
+	<div>
+		<a class="how-to-play mt-4" href="/misc/wordle8r/how-to-use"
 			><img src="/information-button.png" alt="information button" />How to use...</a
 		>
-		<form id="form">
-			<div class="grid">
-				{#each Array.from(Array(6).keys()) as row (row)}
-					{#if row <= currentRow}
-						<div
-							class:hide={row > currentRow}
-							class:show={row <= currentRow}
-							out:fade={{ duration: 800 }}
-							in:fade={{ delay: 1000, duration: 800 }}
-						>
-							<div class="row mt-4">
-								{#each Array.from(Array(5).keys()) as col (col)}
-									<div class="cell">
-										<div
-											class="letter"
-											class:exact={statuses[row][col] === 'x'}
-											class:near={statuses[row][col] === 'n'}
-											class:none={statuses[row][col] === 'o'}
-										>
-											<input
-												autocomplete="off"
-												name={`${row}${col}`}
-												type="text"
-												maxlength="1"
-												disabled={row < currentRow}
-												onkeydown={(event) => handleKeyDown(event, grid, row, col, statuses)}
-												oninput={(event) => handleInput(event, grid, row, col)}
-												onclick={moveCursorToEnd(row, col)}
-											/>
-										</div>
-										{#if isRowComplete(grid, row) && doesWordExist(grid, row, words) && !areAllCurrentRowStatusesSet(statuses, row)}
+	</div>
+	<div class="container pt-4">
+		<div class="left-column">
+			<form id="form">
+				<div class="grid">
+					{#each Array.from(Array(6).keys()) as row (row)}
+						{#if row <= currentRow}
+							<div
+								class:hide={row > currentRow}
+								class:show={row <= currentRow}
+								out:fade={{ duration: 800 }}
+								in:fade={{ delay: 1000, duration: 800 }}
+							>
+								<div class="row mt-4">
+									{#each Array.from(Array(5).keys()) as col (col)}
+										<div class="cell">
 											<div
-												class="buttons"
-												in:fade={{ duration: 1800 }}
-												out:fade={{ duration: 800 }}
+												class="letter"
+												class:exact={statuses[row][col] === 'x'}
+												class:near={statuses[row][col] === 'n'}
+												class:none={statuses[row][col] === 'o'}
 											>
-												<button
-													class="exact mt-2"
-													onclick={() => setStatus(row, col, 'x')}
-													aria-label="Set to exact"
-												></button>
-												<button
-													class="near mt-2"
-													onclick={() => setStatus(row, col, 'n')}
-													aria-label="Set to close"
-												></button>
-												<button
-													class="none mt-2"
-													onclick={() => setStatus(row, col, 'o')}
-													aria-label="Set to absent"
-												></button>
+												<input
+													autocomplete="off"
+													name={`${row}${col}`}
+													type="text"
+													maxlength="1"
+													disabled={row < currentRow}
+													onkeydown={(event) => handleKeyDown(event, grid, row, col, statuses)}
+													oninput={(event) => handleInput(event, grid, row, col)}
+													onclick={moveCursorToEnd(row, col)}
+												/>
 											</div>
-											<!-- {/if} -->
-											<!-- {:else}
+											{#if isRowComplete(grid, row) && doesWordExist(grid, row, words) && !areAllCurrentRowStatusesSet(statuses, row)}
+												<div
+													class="buttons"
+													in:fade={{ duration: 1800 }}
+													out:fade={{ duration: 800 }}
+												>
+													<button
+														class="exact mt-2"
+														onclick={() => setStatus(row, col, 'x')}
+														aria-label="Set to exact"
+													></button>
+													<button
+														class="near mt-2"
+														onclick={() => setStatus(row, col, 'n')}
+														aria-label="Set to close"
+													></button>
+													<button
+														class="none mt-2"
+														onclick={() => setStatus(row, col, 'o')}
+														aria-label="Set to absent"
+													></button>
+												</div>
+												<!-- {/if} -->
+												<!-- {:else}
 											<div class="wordDoesNotExist">dne</div>
 										{/if} -->
-										{/if}
-									</div>
-								{/each}
+											{/if}
+										</div>
+									{/each}
+								</div>
 							</div>
-						</div>
-						{#if currentRow < 5 && currentRow === row && areAllCurrentRowStatusesSet(statuses, currentRow) && filteredPossibles.length > 1}
-							<!-- {(filteredPossibles = Array.from(filteredPossibles))} -->
-							<button
-								class="wide75 mt-4"
-								onclick={advanceRow}
-								in:fade={{ delay: 1000, duration: 800 }}
-								out:fade={{ duration: 500 }}
-							>
-								Next Guess...
-							</button>
-						{/if}{/if}
-				{/each}
-			</div>
-		</form>
-		<button class="wide50 reset" onclick={reset}>Reset...</button>
-	</div>
-
-	<div class="right-column mb-5">
-		<!-- <br class="mt-4" /> -->
-		{#if filteredPossibles.length === 0 && areAllCurrentRowStatusesSet(statuses, currentRow)}
-			<div>No possible solutions!</div>
-		{/if}
-		{#if filteredPossibles.length > 0}
-			<div>
-				{filteredPossibles.length} possible {filteredPossibles.length > 1 ? 'words' : 'word'}:
-			</div>
-
-			<button class="wide mt-4" onclick={() => (showPossibles = !showPossibles)}>
-				{showPossibles ? 'Hide' : 'Show'}...
-			</button>
-			{#if showPossibles}
-				<div class="scrollable-list mt-4" in:fade={{ duration: 800 }} out:fade={{ duration: 500 }}>
-					{#each filteredPossibles as possible}
-						<div class:bold={select.has(possible)}>{possible}</div>
+							{#if currentRow < 5 && currentRow === row && areAllCurrentRowStatusesSet(statuses, currentRow) && filteredPossibles.length > 1}
+								<!-- {(filteredPossibles = Array.from(filteredPossibles))} -->
+								<button
+									class="wide75 mt-4"
+									onclick={advanceRow}
+									in:fade={{ delay: 1000, duration: 800 }}
+									out:fade={{ duration: 500 }}
+								>
+									Next Guess...
+								</button>
+							{/if}{/if}
 					{/each}
 				</div>
+			</form>
+			{#if currentRow > 0}
+				<button class="wide50 reset" onclick={reset}>Reset...</button>
 			{/if}
-		{/if}
+		</div>
+
+		<div class="right-column mb-5">
+			<!-- <br class="mt-4" /> -->
+			{#if filteredPossibles.length === 0 && areAllCurrentRowStatusesSet(statuses, currentRow)}
+				<div>No possible solutions!</div>
+			{/if}
+			{#if filteredPossibles.length > 0}
+				<div>
+					{filteredPossibles.length}
+					{filteredPossibles.length > 1 ? 'possibles' : 'possible'}:
+				</div>
+
+				<button class="wide mt-4" onclick={() => (showPossibles = !showPossibles)}>
+					{showPossibles ? 'Hide' : 'Show'}...
+				</button>
+				{#if showPossibles}
+					<div
+						class="scrollable-list mt-4"
+						in:fade={{ duration: 800 }}
+						out:fade={{ duration: 500 }}
+					>
+						{#each filteredPossibles as possible}
+							<div class:bold={select.has(possible)}>{possible}</div>
+						{/each}
+					</div>
+				{/if}
+			{/if}
+		</div>
 	</div>
 </div>
 
@@ -206,11 +217,35 @@
 </svelte:head>
 
 <style lang="scss">
+	.outer {
+		align-items: center;
+		display: flex;
+		flex-direction: column;
+		font-size: clamp(0.875rem, 2vw, 1.25rem);
+	}
+
+	a.how-to-play {
+		color: black;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		&:hover {
+			text-decoration: none;
+			cursor: pointer;
+		}
+		img {
+			display: inline;
+			width: 1.5rem;
+			height: 1.5rem;
+			margin-inline-end: 0.5rem;
+		}
+	}
+
 	.container {
 		max-width: min(100vw, 30rem);
-		display: grid;
-		font-size: var(--font-size-fluid-1);
-		grid-template-columns: 1fr 1fr;
+		display: flex;
+		// font-size: var(--font-size-fluid-1);
+		// grid-template-columns: 1fr 1fr;
 		gap: 2rem;
 		margin-inline: auto;
 	}
@@ -376,25 +411,6 @@
 		width: 100%;
 	}
 
-	a.how-to-play {
-		color: var(--color-text);
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		align-self: center;
-
-		&:hover {
-			color: black;
-			text-decoration: none;
-			font-weight: 500;
-		}
-
-		img {
-			display: inline;
-			width: 1.5rem;
-			margin-inline-end: 0.5rem;
-		}
-	}
 	// .show {
 	// 	display: block;
 	// }
