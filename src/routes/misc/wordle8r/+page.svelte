@@ -47,6 +47,7 @@
 		}
 		const firstInput = document.querySelector(`input[name="00"]`);
 		if (firstInput) {
+			console.log('focus');
 			firstInput.focus();
 		}
 	}
@@ -90,11 +91,11 @@
 </script>
 
 <div class="container pt-4">
-	<form id="form">
-		<div class="left-column">
-			<a class="how-to-play" href="/misc/wordle8r/how-to-use"
-				><img src="/information-button.png" alt="information button" />How to use...</a
-			>
+	<div class="left-column">
+		<a class="how-to-play" href="/misc/wordle8r/how-to-use"
+			><img src="/information-button.png" alt="information button" />How to use...</a
+		>
+		<form id="form">
 			<div class="grid">
 				{#each Array.from(Array(6).keys()) as row (row)}
 					{#if row <= currentRow}
@@ -168,9 +169,10 @@
 						{/if}{/if}
 				{/each}
 			</div>
-		</div>
+		</form>
 		<button class="wide50 reset" onclick={reset}>Reset...</button>
-	</form>
+	</div>
+
 	<div class="right-column mb-5">
 		<!-- <br class="mt-4" /> -->
 		{#if filteredPossibles.length === 0 && areAllCurrentRowStatusesSet(statuses, currentRow)}
@@ -205,11 +207,23 @@
 
 <style lang="scss">
 	.container {
-		max-width: min(100vw, 30rem, 50rem);
+		max-width: min(100vw, 30rem);
 		display: grid;
+		font-size: var(--font-size-fluid-1);
 		grid-template-columns: 1fr 1fr;
 		gap: 2rem;
 		margin-inline: auto;
+	}
+
+	@media (max-width: 768px) {
+		.container {
+			display: flex;
+			flex-direction: column;
+			font-size: 100%;
+			justify-content: start;
+			align-items: center;
+			// border: 1px solid red;
+		}
 	}
 
 	.left-column {
@@ -221,7 +235,7 @@
 		.row {
 			align-items: center;
 			display: flex;
-			border: 2px solid red;
+			// border: 2px solid red;
 		}
 
 		.cell {
@@ -298,15 +312,16 @@
 
 	button {
 		height: 2rem;
+		font-size: 0.5rem;
 		// border: none;
 		box-shadow: none;
 		color: black;
-		width: 3rem;
+		width: 100%;
 
 		&.wide50 {
 			border: 2px solid #333;
 			float: right;
-			font-size: 125%;
+			font-size: 100%;
 			font-weight: 500;
 			margin-inline: 0.25rem;
 			padding: 1.25rem;
@@ -317,11 +332,11 @@
 		&.wide75 {
 			border: 2px solid #333;
 			float: right;
-			font-size: 125%;
+			font-size: 100%;
 			font-weight: 500;
 			margin-inline: 0.25rem;
 			padding: 1.25rem;
-			padding-inline: 2.5rem;
+			// padding-inline: 2.5rem;
 			vertical-align: middle;
 			width: 75%;
 		}
@@ -329,7 +344,7 @@
 			border: 2px solid #333;
 			// color: black;
 			float: right;
-			font-size: 125%;
+			font-size: 100%;
 			font-weight: 500;
 			height: 2.75rem;
 			margin-inline: 0.25rem;
@@ -342,8 +357,9 @@
 		&.reset {
 			background-color: white;
 			color: black;
+			align-self: end;
 			font-weight: 500;
-			margin-block-start: 1rem;
+			// margin-block-start: 0.5rem;
 			margin-inline: 0.25rem;
 		}
 	}
