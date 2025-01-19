@@ -27,11 +27,18 @@
 	let showPossibles = $state(false);
 
 	onMount(() => {
-		const firstInput = document.querySelector(`input[name="00"]`);
-		if (firstInput) {
-			firstInput.focus();
-		}
+		setFocus(0, 0);
 	});
+
+	function setFocus(row, col) {
+		const firstInput = document.getElementById(`${row}${col}`);
+		console.log(firstInput);
+		// if (firstInput) {
+		// 	console.log(firstInput);
+		// 	firstInput.focus();
+		// }
+		document.getElementById(`${row}${col}`).focus({ focusVisible: true });
+	}
 
 	function reset() {
 		document.getElementById('form').reset();
@@ -45,21 +52,18 @@
 				statuses[i][j] = '';
 			}
 		}
-		const firstInput = document.querySelector(`input[name="00"]`);
-		if (firstInput) {
-			console.log('focus');
-			firstInput.focus();
-		}
+		setFocus(0, 0);
 	}
 
 	// has to be in this file for the tick to work?
 	function advanceRow() {
 		currentRow++;
 		tick().then(() => {
-			const firstCol = document.querySelector(`input[name="${currentRow}0"]`);
-			if (firstCol) {
-				firstCol.focus();
-			}
+			// const firstCol = document.querySelector(`input[name="${currentRow}0"]`);
+			// if (firstCol) {
+			// 	firstCol.focus();
+			// }
+			setFocus(currentRow, 0);
 		});
 	}
 
@@ -98,7 +102,7 @@
 	</div>
 	<div class="container pt-4 mt-4">
 		<div class="left-column">
-			<form id="form">
+			<form id="myForm">
 				{#each Array.from(Array(6).keys()) as row (row)}
 					{#if row <= currentRow}
 						<div
@@ -119,6 +123,7 @@
 											<input
 												autocomplete="off"
 												name={`${row}${col}`}
+												id={`${row}${col}`}
 												type="text"
 												maxlength="1"
 												disabled={row < currentRow}
@@ -161,10 +166,10 @@
 						{#if currentRow < 5 && currentRow === row && areAllCurrentRowStatusesSet(statuses, currentRow) && filteredPossibles.length > 1}
 							<!-- {(filteredPossibles = Array.from(filteredPossibles))} -->
 							<button
-								class="wide75"
+								class="wide75 mt-1"
 								onclick={advanceRow}
 								in:fade={{ delay: 1000, duration: 800 }}
-								out:fade={{ duration: 1800 }}
+								out:fade={{ duration: 800 }}
 							>
 								Next Guess...
 							</button>
@@ -173,13 +178,13 @@
 				{/each}
 			</form>
 			{#if currentRow > 0 || filteredPossibles.length === 1}
-				<button in:fade={{ delay: 1000, duration: 800 }} class="wide50 reset" onclick={reset}
+				<button in:fade={{ delay: 1000, duration: 800 }} class="wide50 reset mt-5" onclick={reset}
 					>Reset...</button
 				>
 			{/if}
 		</div>
 
-		<div class="right-column mt-2">
+		<div class="right-column mt-3">
 			{#if filteredPossibles.length === 0 && areAllCurrentRowStatusesSet(statuses, currentRow)}
 				<div>No possible solutions!</div>
 			{/if}
@@ -189,7 +194,7 @@
 					{filteredPossibles.length > 1 ? 'possibilities' : 'possibility'}.
 				</div>
 
-				<button class="wide" onclick={() => (showPossibles = !showPossibles)}>
+				<button class="wide mt-1" onclick={() => (showPossibles = !showPossibles)}>
 					{showPossibles ? 'Hide' : 'Show'}...
 				</button>
 				{#if showPossibles}
@@ -242,7 +247,7 @@
 		display: flex;
 		justify-content: center;
 		align-items: start;
-		// gap: 2rem;
+		gap: 2rem;
 		margin-inline: auto;
 		// background: white;
 
