@@ -99,79 +99,77 @@
 	<div class="container pt-4">
 		<div class="left-column">
 			<form id="form">
-				<div class="grid">
-					{#each Array.from(Array(6).keys()) as row (row)}
-						{#if row <= currentRow}
-							<div
-								class:hide={row > currentRow}
-								class:show={row <= currentRow}
-								out:fade={{ duration: 800 }}
-								in:fade={{ delay: 1000, duration: 800 }}
-							>
-								<div class="row mt-4">
-									{#each Array.from(Array(5).keys()) as col (col)}
-										<div class="cell">
+				{#each Array.from(Array(6).keys()) as row (row)}
+					{#if row <= currentRow}
+						<div
+							class:hide={row > currentRow}
+							class:show={row <= currentRow}
+							out:fade={{ duration: 800 }}
+							in:fade={{ delay: 1000, duration: 800 }}
+						>
+							<div class="row">
+								{#each Array.from(Array(5).keys()) as col (col)}
+									<div class="cell">
+										<div
+											class="letter"
+											class:exact={statuses[row][col] === 'x'}
+											class:near={statuses[row][col] === 'n'}
+											class:none={statuses[row][col] === 'o'}
+										>
+											<input
+												autocomplete="off"
+												name={`${row}${col}`}
+												type="text"
+												maxlength="1"
+												disabled={row < currentRow}
+												onkeydown={(event) => handleKeyDown(event, grid, row, col, statuses)}
+												oninput={(event) => handleInput(event, grid, row, col)}
+												onclick={moveCursorToEnd(row, col)}
+											/>
+										</div>
+										{#if isRowComplete(grid, row) && doesWordExist(grid, row, words) && !areAllCurrentRowStatusesSet(statuses, row)}
 											<div
-												class="letter"
-												class:exact={statuses[row][col] === 'x'}
-												class:near={statuses[row][col] === 'n'}
-												class:none={statuses[row][col] === 'o'}
+												class="buttons"
+												in:fade={{ duration: 1800 }}
+												out:fade={{ duration: 800 }}
 											>
-												<input
-													autocomplete="off"
-													name={`${row}${col}`}
-													type="text"
-													maxlength="1"
-													disabled={row < currentRow}
-													onkeydown={(event) => handleKeyDown(event, grid, row, col, statuses)}
-													oninput={(event) => handleInput(event, grid, row, col)}
-													onclick={moveCursorToEnd(row, col)}
-												/>
+												<button
+													class="exact mt-2"
+													onclick={() => setStatus(row, col, 'x')}
+													aria-label="Set to exact"
+												></button>
+												<button
+													class="near mt-2"
+													onclick={() => setStatus(row, col, 'n')}
+													aria-label="Set to close"
+												></button>
+												<button
+													class="none mt-2"
+													onclick={() => setStatus(row, col, 'o')}
+													aria-label="Set to absent"
+												></button>
 											</div>
-											{#if isRowComplete(grid, row) && doesWordExist(grid, row, words) && !areAllCurrentRowStatusesSet(statuses, row)}
-												<div
-													class="buttons"
-													in:fade={{ duration: 1800 }}
-													out:fade={{ duration: 800 }}
-												>
-													<button
-														class="exact mt-2"
-														onclick={() => setStatus(row, col, 'x')}
-														aria-label="Set to exact"
-													></button>
-													<button
-														class="near mt-2"
-														onclick={() => setStatus(row, col, 'n')}
-														aria-label="Set to close"
-													></button>
-													<button
-														class="none mt-2"
-														onclick={() => setStatus(row, col, 'o')}
-														aria-label="Set to absent"
-													></button>
-												</div>
-												<!-- {/if} -->
-												<!-- {:else}
+											<!-- {/if} -->
+											<!-- {:else}
 											<div class="wordDoesNotExist">dne</div>
 										{/if} -->
-											{/if}
-										</div>
-									{/each}
-								</div>
+										{/if}
+									</div>
+								{/each}
 							</div>
-							{#if currentRow < 5 && currentRow === row && areAllCurrentRowStatusesSet(statuses, currentRow) && filteredPossibles.length > 1}
-								<!-- {(filteredPossibles = Array.from(filteredPossibles))} -->
-								<button
-									class="wide75 mt-4"
-									onclick={advanceRow}
-									in:fade={{ delay: 1000, duration: 800 }}
-									out:fade={{ duration: 500 }}
-								>
-									Next Guess...
-								</button>
-							{/if}{/if}
-					{/each}
-				</div>
+						</div>
+						{#if currentRow < 5 && currentRow === row && areAllCurrentRowStatusesSet(statuses, currentRow) && filteredPossibles.length > 1}
+							<!-- {(filteredPossibles = Array.from(filteredPossibles))} -->
+							<button
+								class="wide75 mt-4"
+								onclick={advanceRow}
+								in:fade={{ delay: 1000, duration: 800 }}
+								out:fade={{ duration: 500 }}
+							>
+								Next Guess...
+							</button>
+						{/if}{/if}
+				{/each}
 			</form>
 			{#if currentRow > 0}
 				<button class="wide50 reset" onclick={reset}>Reset...</button>
@@ -244,34 +242,74 @@
 	.container {
 		max-width: min(100vw, 30rem);
 		display: flex;
-		// font-size: var(--font-size-fluid-1);
-		// grid-template-columns: 1fr 1fr;
+		justify-content: center;
+		align-items: start;
 		gap: 2rem;
 		margin-inline: auto;
-	}
+		background: white;
 
-	@media (max-width: 768px) {
-		.container {
+		.left-column {
 			display: flex;
 			flex-direction: column;
-			font-size: 100%;
-			justify-content: start;
-			align-items: center;
-			// border: 1px solid red;
+			gap: 0.5rem;
+			border: 1px solid orange;
+			// padding: 0;
+			// margin: 0;
+
+			form {
+				padding: 0;
+
+				.row {
+					align-items: center;
+					display: flex;
+					border: 2px solid red;
+					padding: 0;
+
+					.cell {
+						margin-inline: 0.25rem;
+						align-items: center;
+						display: flex;
+						flex-direction: column;
+						justify-content: center;
+						padding: 0;
+						width: 3rem;
+
+						.letter {
+							align-items: center;
+							background-color: white;
+							display: flex;
+							height: 3rem;
+							justify-content: center;
+							aspect-ratio: 1;
+							border: 2px solid #333;
+							font-size: 2rem;
+							color: black;
+							border-radius: 0.5rem;
+							margin-inline: 0.5rem;
+
+							&:focus-within {
+								border: none;
+							}
+						}
+					}
+				}
+			}
 		}
 	}
 
-	.left-column {
-		display: flex;
-		flex-direction: column;
-		gap: 1rem;
-		// border: 1px solid red;
+	// @media (max-width: 768px) {
+	// 	.container {
+	// 		display: flex;
+	// 		flex-direction: column;
+	// 		font-size: 100%;
+	// 		justify-content: start;
+	// 		align-items: center;
+	// 		// border: 1px solid red;
+	// 	}
+	// }
 
-		.row {
-			align-items: center;
-			display: flex;
-			// border: 2px solid red;
-		}
+	.left-column {
+		// border: 1px solid red;
 
 		.cell {
 			margin-inline: 0.25rem;
