@@ -90,13 +90,13 @@
 	// }
 </script>
 
-<div class="outer pt-4">
+<div class="outer">
 	<div>
 		<a class="how-to-play mt-4" href="/misc/wordle8r/how-to-use"
 			><img src="/information-button.png" alt="information button" />How to use...</a
 		>
 	</div>
-	<div class="container pt-4">
+	<div class="container pt-4 mt-4">
 		<div class="left-column">
 			<form id="form">
 				{#each Array.from(Array(6).keys()) as row (row)}
@@ -105,7 +105,7 @@
 							class:hide={row > currentRow}
 							class:show={row <= currentRow}
 							out:fade={{ duration: 800 }}
-							in:fade={{ delay: 1000, duration: 800 }}
+							in:fade={{ duration: 800 }}
 						>
 							<div class="row">
 								{#each Array.from(Array(5).keys()) as col (col)}
@@ -161,41 +161,39 @@
 						{#if currentRow < 5 && currentRow === row && areAllCurrentRowStatusesSet(statuses, currentRow) && filteredPossibles.length > 1}
 							<!-- {(filteredPossibles = Array.from(filteredPossibles))} -->
 							<button
-								class="wide75 mt-4"
+								class="wide75"
 								onclick={advanceRow}
 								in:fade={{ delay: 1000, duration: 800 }}
-								out:fade={{ duration: 500 }}
+								out:fade={{ duration: 1800 }}
 							>
 								Next Guess...
 							</button>
-						{/if}{/if}
+						{/if}
+					{/if}
 				{/each}
 			</form>
-			{#if currentRow > 0}
-				<button class="wide50 reset" onclick={reset}>Reset...</button>
+			{#if currentRow > 0 || filteredPossibles.length === 1}
+				<button in:fade={{ delay: 1000, duration: 800 }} class="wide50 reset" onclick={reset}
+					>Reset...</button
+				>
 			{/if}
 		</div>
 
-		<div class="right-column mb-5">
-			<!-- <br class="mt-4" /> -->
+		<div class="right-column mt-2">
 			{#if filteredPossibles.length === 0 && areAllCurrentRowStatusesSet(statuses, currentRow)}
 				<div>No possible solutions!</div>
 			{/if}
 			{#if filteredPossibles.length > 0}
 				<div>
 					{filteredPossibles.length}
-					{filteredPossibles.length > 1 ? 'possibles' : 'possible'}:
+					{filteredPossibles.length > 1 ? 'possibilities' : 'possibility'}.
 				</div>
 
-				<button class="wide mt-4" onclick={() => (showPossibles = !showPossibles)}>
+				<button class="wide" onclick={() => (showPossibles = !showPossibles)}>
 					{showPossibles ? 'Hide' : 'Show'}...
 				</button>
 				{#if showPossibles}
-					<div
-						class="scrollable-list mt-4"
-						in:fade={{ duration: 800 }}
-						out:fade={{ duration: 500 }}
-					>
+					<div class="scrollable-list" in:fade={{ duration: 800 }} out:fade={{ duration: 500 }}>
 						{#each filteredPossibles as possible}
 							<div class:bold={select.has(possible)}>{possible}</div>
 						{/each}
@@ -244,56 +242,92 @@
 		display: flex;
 		justify-content: center;
 		align-items: start;
-		gap: 2rem;
+		// gap: 2rem;
 		margin-inline: auto;
-		background: white;
+		// background: white;
 
 		.left-column {
 			display: flex;
 			flex-direction: column;
 			gap: 0.5rem;
-			border: 1px solid orange;
-			// padding: 0;
-			// margin: 0;
+			// border: 1px solid orange;
 
 			form {
 				padding: 0;
+			}
 
-				.row {
+			.row {
+				align-items: center;
+				display: flex;
+				// border: 2px solid red;
+				margin-bottom: 0.5rem;
+				padding: 0;
+
+				.cell {
+					margin-inline: 0.25rem;
 					align-items: center;
 					display: flex;
-					border: 2px solid red;
+					flex-direction: column;
+					justify-content: center;
 					padding: 0;
+					width: 3rem;
 
-					.cell {
-						margin-inline: 0.25rem;
+					.letter {
 						align-items: center;
+						background-color: white;
 						display: flex;
-						flex-direction: column;
+						height: 3rem;
 						justify-content: center;
-						padding: 0;
-						width: 3rem;
+						aspect-ratio: 1;
+						border: 2px solid #333;
+						font-size: 2rem;
+						color: black;
+						border-radius: 0.5rem;
+						margin-inline: 0.5rem;
 
-						.letter {
-							align-items: center;
-							background-color: white;
-							display: flex;
-							height: 3rem;
-							justify-content: center;
-							aspect-ratio: 1;
-							border: 2px solid #333;
-							font-size: 2rem;
-							color: black;
-							border-radius: 0.5rem;
-							margin-inline: 0.5rem;
+						&:focus-within {
+							border: none;
+						}
 
-							&:focus-within {
-								border: none;
+						input {
+							width: 100%;
+							height: 100%;
+							background-color: inherit;
+							box-shadow: var(--shadow-6);
+							outline: none;
+							text-align: center;
+							padding: 0;
+							padding-block-end: 0.25rem;
+							margin: 0;
+							// caret-color: transparent;
+
+							&:focus {
+								border: 2px solid #090;
+								outline: none;
 							}
 						}
 					}
+
+					.exact {
+						background-color: green;
+					}
+					.near {
+						background-color: #ffc040;
+					}
+					.none {
+						background-color: #aaa;
+					}
 				}
 			}
+		}
+
+		.right-column {
+			align-items: center;
+			display: flex;
+			flex-direction: column;
+			gap: 1rem;
+			// border: 1px solid blue;
+			width: 10rem;
 		}
 	}
 
@@ -308,91 +342,30 @@
 	// 	}
 	// }
 
-	.left-column {
-		// border: 1px solid red;
-
-		.cell {
-			margin-inline: 0.25rem;
-			align-items: center;
-			display: flex;
-			flex-direction: column;
-			justify-content: center;
-			padding: 0;
-			width: 3rem;
-		}
-
-		.letter {
-			align-items: center;
-			background-color: white;
-			display: flex;
-			height: 3rem;
-			justify-content: center;
-			aspect-ratio: 1;
-			border: 2px solid #333;
-			font-size: 2rem;
-			color: black;
-			border-radius: 0.5rem;
-			margin-inline: 0.5rem;
-
-			&:focus-within {
-				border: none;
-			}
-		}
-
-		input {
-			width: 100%;
-			height: 100%;
-			background-color: inherit;
-			box-shadow: var(--shadow-6);
-			outline: none;
-			text-align: center;
-			padding: 0;
-			padding-block-end: 0.25rem;
-			margin: 0;
-			// caret-color: transparent;
-
-			&:focus {
-				border: 2px solid #090;
-				outline: none;
-			}
-		}
-
-		.exact {
-			background-color: green;
-		}
-		.near {
-			background-color: #ffc040;
-		}
-		.none {
-			background-color: #aaa;
-		}
+	.exact {
+		background-color: green;
 	}
-
-	.right-column {
-		align-items: center;
-		display: flex;
-		flex-direction: column;
-		gap: 1rem;
+	.near {
+		background-color: #ffc040;
+	}
+	.none {
+		background-color: #aaa;
 	}
 
 	.bold {
 		font-weight: bold;
 	}
 
-	// .buttons {
-	// 	display: none;
-	// }
-
 	button {
 		height: 2rem;
 		font-size: 0.5rem;
 		// border: none;
+		border: 2px solid #333;
 		box-shadow: none;
 		color: black;
 		width: 100%;
 
 		&.wide50 {
-			border: 2px solid #333;
 			float: right;
 			font-size: 100%;
 			font-weight: 500;
@@ -403,7 +376,7 @@
 			width: 50%;
 		}
 		&.wide75 {
-			border: 2px solid #333;
+			// border: 2px solid #333;
 			float: right;
 			font-size: 100%;
 			font-weight: 500;
@@ -414,14 +387,14 @@
 			width: 75%;
 		}
 		&.wide {
-			border: 2px solid #333;
+			// border: 2px solid #333;
 			// color: black;
 			float: right;
 			font-size: 100%;
 			font-weight: 500;
-			height: 2.75rem;
+			// height: 2.75rem;
 			margin-inline: 0.25rem;
-			padding: 1.375rem;
+			padding: 1.255rem;
 			padding-inline: 2.5rem;
 			vertical-align: middle;
 			width: 100%;
