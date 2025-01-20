@@ -1,7 +1,7 @@
 <script>
 	import { fade } from 'svelte/transition';
 	import { tick } from 'svelte';
-	import { words } from './words.js';
+	import { words, select } from './words.js';
 	import { onMount } from 'svelte';
 
 	import {
@@ -87,8 +87,13 @@
 			<!-- <form name="form" id="form" action="?/enter"> -->
 			<div class="grid">
 				{#each Array.from(Array(6).keys()) as row (row)}
-					<div class:hide={row > currentRow} class:show={row <= currentRow}>
-						<div class="row mt-4 wordDoesNotExist">
+					<div
+						class:hide={row > currentRow}
+						class:show={row <= currentRow}
+						in:fade={{ delay: 5000, duration: 800 }}
+						out:fade={{ duration: 800 }}
+					>
+						<div class="row mt-4">
 							{#each Array.from(Array(5).keys()) as col (col)}
 								<div class="cell">
 									<div
@@ -108,63 +113,69 @@
 											onclick={moveCursorToEnd(row, col)}
 										/>
 									</div>
-									{#if isRowComplete(grid, row)}
-										{#if doesWordExist(grid, row, words)}
-											{#if !areAllCurrentRowStatusesSet(statuses, row)}
-												<div class="buttons" transition:fade>
-													<button
-														class="exact mt-2"
-														onclick={() => setStatus(row, col, 'x')}
-														aria-label="Set to exact"
-													></button>
-													<button
-														class="near mt-2"
-														onclick={() => setStatus(row, col, 'n')}
-														aria-label="Set to close"
-													></button>
-													<button
-														class="none mt-2"
-														onclick={() => setStatus(row, col, 'o')}
-														aria-label="Set to absent"
-													></button>
-												</div>
-												<!-- {:else}get possibles -->
-											{/if}
-										{:else}
-											<div class="wordDoesNotExist">dne</div>
-										{/if}
+
+									{#if isRowComplete(grid, row) && doesWordExist(grid, row, words) && !areAllCurrentRowStatusesSet(statuses, row)}
+										<div class="buttons" in:fade={{ duration: 800 }} out:fade={{ duration: 800 }}>
+											<button
+												class="exact mt-2"
+												onclick={() => setStatus(row, col, 'x')}
+												aria-label="Set to exact"
+											></button>
+											<button
+												class="near mt-2"
+												onclick={() => setStatus(row, col, 'n')}
+												aria-label="Set to close"
+											></button>
+											<button
+												class="none mt-2"
+												onclick={() => setStatus(row, col, 'o')}
+												aria-label="Set to absent"
+											></button>
+										</div>
+										<!-- {:else}get possibles -->
 									{/if}
+									<!-- {:else}
+										<div class="wordDoesNotExist">dne</div> -->
 								</div>
 							{/each}
 						</div>
 					</div>
-					{#if currentRow < 5 && currentRow === row && areAllCurrentRowStatusesSet(statuses, currentRow)}
-						<!-- {(filteredPossibles = Array.from(filteredPossibles))} -->
-						<button class="wide50 mt-4" onclick={advanceRow}> Guess... </button>
+					{#if currentRow < 5 && currentRow === row && areAllCurrentRowStatusesSet(statuses, currentRow) && filteredPossibles.length > 1}
+						<button
+							class="wide mt-4"
+							in:fade={{ delay: 1000, duration: 1500 }}
+							out:fade={{ duration: 800 }}
+							onclick={advanceRow}
+						>
+							Next Guess...
+						</button>
 					{/if}
 				{/each}
 			</div>
 			<!-- </form> -->
 			{#if currentRow > 0 || filteredPossibles.length === 1}
-				<button in:fade={{ delay: 1000, duration: 800 }} class="wide50 reset mt-5" onclick={reset}
+				<button in:fade={{ delay: 1000, duration: 1200 }} class="wide reset mt-5" onclick={reset}
 					>Reset...</button
 				>
 			{/if}
 		</div>
 		<div class="right-column mt-4">
-			<!-- <br class="mt-4" /> -->
 			{#if filteredPossibles.length > 0}
-				<p>{filteredPossibles.length} possible words:</p>
+				<p class="center">
+					{filteredPossibles.length} possible {filteredPossibles.length > 1 ? 'words' : 'word'}
+				</p>
 				<button class="wide" onclick={() => (showPossibles = !showPossibles)}>
 					{showPossibles ? 'Hide' : 'Show'}...
 				</button>
 				{#if showPossibles}
-					<div class="scrollable-list mt-2">
+					<div class="scrollable-list" in:fade={{ duration: 800 }} out:fade={{ duration: 500 }}>
 						{#each filteredPossibles as possible}
-							<div>{possible}</div>
+							<div class:bold={select.has(possible)}>{possible}</div>
 						{/each}
 					</div>
 				{/if}
+			{:else if areAllCurrentRowStatusesSet(statuses, currentRow)}
+				No possible words
 			{/if}
 		</div>
 	</div>
@@ -272,6 +283,7 @@
 	}
 
 	.right-column {
+		align-items: stretch;
 		display: flex;
 		flex-direction: column;
 		gap: 1rem;
@@ -282,6 +294,13 @@
 	}
 	.hide {
 		display: none;
+	}
+	.bold {
+		font-weight: bold;
+	}
+	.center {
+		display: flex;
+		justify-content: center;
 	}
 
 	button {
@@ -300,6 +319,17 @@
 			padding-inline: 2.5rem;
 			vertical-align: middle;
 			width: 50%;
+		}
+		&.wide75 {
+			border: 2px solid #333;
+			float: right;
+			font-size: 125%;
+			font-weight: 500;
+			margin-inline: 0.25rem;
+			padding: 1.25rem;
+			padding-inline: 2.5rem;
+			vertical-align: middle;
+			width: 75%;
 		}
 		&.wide {
 			border: 2px solid #333;
