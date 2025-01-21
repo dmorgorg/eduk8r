@@ -52,7 +52,10 @@
 			for (let j = 0; j < 5; j++) {
 				grid[i][j] = '';
 				statuses[i][j] = '';
-				document.getElementById(`${i}${j}`).value = '';
+				if (document && document.getElementById(`${i}${j}`)) {
+					const doc = document.getElementById(`${i}${j}`);
+					doc.value = '';
+				}
 			}
 		}
 		setFocus(0, 0);
@@ -87,13 +90,12 @@
 			<!-- <form name="form" id="form" action="?/enter"> -->
 			<div class="grid">
 				{#each Array.from(Array(6).keys()) as row (row)}
-					<div
-						class:hide={row > currentRow}
-						class:show={row <= currentRow}
-						in:fade={{ delay: 5000, duration: 800 }}
-						out:fade={{ duration: 800 }}
-					>
-						<div class="row mt-4">
+					{#if row <= currentRow}
+						<div
+							class="row mt-4"
+							in:fade={{ delay: 500, duration: 800 }}
+							out:fade={{ duration: 800 }}
+						>
 							{#each Array.from(Array(5).keys()) as col (col)}
 								<div class="cell">
 									<div
@@ -115,7 +117,7 @@
 									</div>
 
 									{#if isRowComplete(grid, row) && doesWordExist(grid, row, words) && !areAllCurrentRowStatusesSet(statuses, row)}
-										<div class="buttons" in:fade={{ duration: 800 }} out:fade={{ duration: 800 }}>
+										<div class="buttons" in:fade={{ duration: 500 }} out:fade={{ duration: 500 }}>
 											<button
 												class="exact mt-2"
 												onclick={() => setStatus(row, col, 'x')}
@@ -139,16 +141,16 @@
 								</div>
 							{/each}
 						</div>
-					</div>
-					{#if currentRow < 5 && currentRow === row && areAllCurrentRowStatusesSet(statuses, currentRow) && filteredPossibles.length > 1}
-						<button
-							class="wide mt-4"
-							in:fade={{ delay: 1000, duration: 1500 }}
-							out:fade={{ duration: 800 }}
-							onclick={advanceRow}
-						>
-							Next Guess...
-						</button>
+						{#if currentRow < 5 && currentRow === row && areAllCurrentRowStatusesSet(statuses, currentRow) && filteredPossibles.length > 1}
+							<button
+								class="wide mt-4"
+								in:fade={{ delay: 800, duration: 500 }}
+								out:fade={{ duration: 500 }}
+								onclick={advanceRow}
+							>
+								Next Guess...
+							</button>
+						{/if}
 					{/if}
 				{/each}
 			</div>
@@ -161,7 +163,7 @@
 		</div>
 		<div class="right-column mt-4">
 			{#if filteredPossibles.length > 0}
-				<p class="center">
+				<p class="center mt-4">
 					{filteredPossibles.length} possible {filteredPossibles.length > 1 ? 'words' : 'word'}
 				</p>
 				<button class="wide" onclick={() => (showPossibles = !showPossibles)}>
@@ -186,7 +188,7 @@
 		align-items: center;
 		display: flex;
 		flex-direction: column;
-		font-size: clamp(0.875rem, 2vw, 1.25rem);
+		font-size: clamp(0.75rem, 1.75vw, 1.25rem);
 	}
 
 	a.how-to-play {
