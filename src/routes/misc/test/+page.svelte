@@ -85,6 +85,11 @@
 </script>
 
 <div class="outer">
+	<div>
+		<a class="how-to-play mt-4" href="/misc/wordle8r/how-to-use"
+			><img src="/information-button.png" alt="information button" />How to use...</a
+		>
+	</div>
 	<div class="container pt-4">
 		<div class="left-column">
 			<!-- <form name="form" id="form" action="?/enter"> -->
@@ -144,7 +149,7 @@
 						{#if currentRow < 5 && currentRow === row && areAllCurrentRowStatusesSet(statuses, currentRow) && filteredPossibles.length > 1}
 							<button
 								class="wide mt-4"
-								in:fade={{ delay: 800, duration: 500 }}
+								in:fade={{ delay: 1500, duration: 500 }}
 								out:fade={{ duration: 500 }}
 								onclick={advanceRow}
 							>
@@ -161,12 +166,24 @@
 				>
 			{/if}
 		</div>
-		<div class="right-column mt-4">
-			{#if filteredPossibles.length > 0}
-				<p class="center mt-4">
+		<div class="right-column mt-3">
+			{#if isRowComplete(grid, currentRow) && !doesWordExist(grid, currentRow, words)}
+				<h4 class="wordDoesNotExist error center" transition:fade={{ duration: 800 }}>
+					Not a valid word!
+				</h4>
+			{:else if doesWordExist(grid, currentRow, words) && filteredPossibles.length === 0 && areAllCurrentRowStatusesSet(statuses, currentRow)}
+				<h4 in:fade={{ delay: 2000, duration: 500 }} class="mt-2 error center">
+					No possible words
+				</h4>
+			{:else if filteredPossibles.length > 0}
+				<p class="center mt-4" transition:fade={{ duration: 800 }}>
 					{filteredPossibles.length} possible {filteredPossibles.length > 1 ? 'words' : 'word'}
 				</p>
-				<button class="wide" onclick={() => (showPossibles = !showPossibles)}>
+				<button
+					class="wide"
+					onclick={() => (showPossibles = !showPossibles)}
+					transition:fade={{ delay: 500, duration: 800 }}
+				>
 					{showPossibles ? 'Hide' : 'Show'}...
 				</button>
 				{#if showPossibles}
@@ -176,8 +193,6 @@
 						{/each}
 					</div>
 				{/if}
-			{:else if areAllCurrentRowStatusesSet(statuses, currentRow)}
-				No possible words
 			{/if}
 		</div>
 	</div>
@@ -282,6 +297,9 @@
 		.none {
 			background-color: #aaa;
 		}
+		.reset {
+			margin-top: 4rem;
+		}
 	}
 
 	.right-column {
@@ -303,6 +321,12 @@
 	.center {
 		display: flex;
 		justify-content: center;
+	}
+
+	.error {
+		color: red;
+		font-weight: bold;
+		text-align: center;
 	}
 
 	button {
