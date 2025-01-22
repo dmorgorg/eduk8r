@@ -93,7 +93,7 @@
 	<div class="container pt-4">
 		<div class="left-column">
 			<!-- <form name="form" id="form" action="?/enter"> -->
-			<div class="grid">
+			<div>
 				{#each Array.from(Array(6).keys()) as row (row)}
 					{#if row <= currentRow}
 						<div
@@ -202,7 +202,7 @@
 		align-items: center;
 		display: flex;
 		flex-direction: column;
-		font-size: clamp(0.75rem, 1.5vw, 1.5rem);
+		font-size: clamp(0.875rem, 1.75vw, 1.5rem);
 	}
 
 	a.how-to-play {
@@ -228,17 +228,19 @@
 		grid-template-columns: 1fr 1fr;
 		gap: 2rem;
 		margin-inline: auto;
+		background: pink;
 	}
 
 	.left-column {
 		display: flex;
 		flex-direction: column;
 		gap: 1rem;
-		// border: 1px solid red;
+		// border:  solid blue; solid red;
 
 		.row {
 			align-items: center;
 			display: flex;
+			justify-content: center;
 		}
 
 		.cell {
@@ -246,8 +248,6 @@
 			align-items: center;
 			display: flex;
 			flex-direction: column;
-			justify-content: center;
-			border: 1px solid #333;
 		}
 
 		.letter {
@@ -261,7 +261,7 @@
 			color: black;
 			border-radius: 0.5rem;
 			margin-inline: 0.5rem;
-			// width: 2rem;
+			width: 100%;
 			// aspect-ratio: 1;
 
 			&:focus-within {
@@ -307,14 +307,8 @@
 		display: flex;
 		flex-direction: column;
 		gap: 1rem;
-		// border: 1px solid red;
 	}
-	.show {
-		display: block;
-	}
-	.hide {
-		display: none;
-	}
+
 	.bold {
 		font-weight: bold;
 	}
@@ -323,18 +317,11 @@
 		justify-content: center;
 	}
 
-	.error {
-		color: red;
-		font-weight: bold;
-		text-align: center;
-	}
-
 	button {
-		height: 1.5rem;
+		height: 2rem;
 		// border: none;
 		box-shadow: none;
-		width: 2rem;
-		width: 100%;
+		width: 3rem;
 
 		&.wide50 {
 			border: 2px solid #333;
@@ -375,10 +362,77 @@
 		background-color: white;
 		border: 2px solid #333;
 		border-radius: 0.25rem;
-		max-height: 40vh;
+		max-height: 30vh;
 		overflow-y: auto;
 		padding: 0.5rem;
 		margin-top: 0.5rem;
+	}
+
+	@media only screen and (max-width: 512px) {
+		.container {
+			align-items: center;
+			background: red;
+			display: flex;
+			flex-direction: column;
+			font-size: 150%;
+
+			.left-column {
+				border: 2px solid yellow;
+
+				.cell {
+					margin-inline: 0.075rem;
+					// align-items: center;
+					display: flex;
+					flex-direction: column;
+					width: 2.5rem;
+					border: 1px solid blue;
+				}
+
+				.letter {
+					align-items: center;
+					background-color: white;
+					display: flex;
+					justify-content: center;
+					aspect-ratio: 1;
+					border: 2px solid #333;
+					font-size: 1rem;
+
+					&:focus-within {
+						border: none;
+					}
+				}
+
+				input {
+					aspect-ratio: 1;
+					padding-block-end: 0.375rem;
+
+					&:focus {
+						border: 2px solid #090;
+						outline: none;
+					}
+				}
+
+				button {
+					height: 2rem;
+					// border: none;
+					box-shadow: none;
+					width: 2rem;
+				}
+
+				.exact {
+					background-color: green;
+				}
+				.near {
+					background-color: #ffc040;
+				}
+				.none {
+					background-color: #aaa;
+				}
+				.reset {
+					margin-top: 4rem;
+				}
+			}
+		}
 	}
 
 	@media (prefers-reduced-motion: no-preference) {
