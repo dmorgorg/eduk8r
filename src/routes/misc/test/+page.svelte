@@ -228,7 +228,7 @@
 		grid-template-columns: 1fr 1fr;
 		gap: 2rem;
 		margin-inline: auto;
-		background: pink;
+		// background: pink;
 	}
 
 	.left-column {
@@ -358,6 +358,10 @@
 		}
 	}
 
+	.error {
+		color: red;
+	}
+
 	.scrollable-list {
 		background-color: white;
 		border: 2px solid #333;
@@ -371,21 +375,21 @@
 	@media only screen and (max-width: 512px) {
 		.container {
 			align-items: center;
-			background: red;
+			// background: red;
 			display: flex;
 			flex-direction: column;
 			font-size: 150%;
 
 			.left-column {
-				border: 2px solid yellow;
+				// border: 2px solid yellow;
 
 				.cell {
 					margin-inline: 0.075rem;
-					// align-items: center;
 					display: flex;
 					flex-direction: column;
 					width: 2.5rem;
-					border: 1px solid blue;
+					// padding-inline: 0.25rem;
+					// border: 1px solid blue;
 				}
 
 				.letter {
@@ -412,11 +416,23 @@
 					}
 				}
 
-				button {
-					height: 2rem;
-					// border: none;
-					box-shadow: none;
-					width: 2rem;
+				.buttons {
+					button {
+						font-size: 1rem;
+						height: 1.75rem;
+						// border: none;
+						box-shadow: none;
+						width: 1.25rem;
+						// aspect-ratio: 1;
+						// border: 2px solid black;
+
+						&.wide {
+							font-size: 1rem;
+							padding: 0.5rem;
+
+							width: 100%;
+						}
+					}
 				}
 
 				.exact {
