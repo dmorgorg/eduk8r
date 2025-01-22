@@ -149,7 +149,7 @@
 						{#if currentRow < 5 && currentRow === row && areAllCurrentRowStatusesSet(statuses, currentRow) && filteredPossibles.length > 1}
 							<button
 								class="wide mt-4"
-								in:fade={{ delay: 1500, duration: 500 }}
+								in:fade={{ delay: 1000, duration: 500 }}
 								out:fade={{ duration: 500 }}
 								onclick={advanceRow}
 							>
@@ -168,13 +168,11 @@
 		</div>
 		<div class="right-column mt-3">
 			{#if isRowComplete(grid, currentRow) && !doesWordExist(grid, currentRow, words)}
-				<h4 class="wordDoesNotExist error center" transition:fade={{ duration: 800 }}>
+				<h4 class="wordDoesNotExist error" transition:fade={{ duration: 800 }}>
 					Not a valid word!
 				</h4>
 			{:else if doesWordExist(grid, currentRow, words) && filteredPossibles.length === 0 && areAllCurrentRowStatusesSet(statuses, currentRow)}
-				<h4 in:fade={{ delay: 2000, duration: 500 }} class="mt-2 error center">
-					No possible words
-				</h4>
+				<h4 class="error wordDoesNotExistDelay">No possible words</h4>
 			{:else if filteredPossibles.length > 0}
 				<p class="center mt-4" transition:fade={{ duration: 800 }}>
 					{filteredPossibles.length} possible {filteredPossibles.length > 1 ? 'words' : 'word'}
@@ -182,7 +180,8 @@
 				<button
 					class="wide"
 					onclick={() => (showPossibles = !showPossibles)}
-					transition:fade={{ delay: 500, duration: 800 }}
+					in:fade={{ duration: 800 }}
+					out:fade={{ duration: 800 }}
 				>
 					{showPossibles ? 'Hide' : 'Show'}...
 				</button>
@@ -203,7 +202,7 @@
 		align-items: center;
 		display: flex;
 		flex-direction: column;
-		font-size: clamp(0.75rem, 1.75vw, 1.25rem);
+		font-size: clamp(0.75rem, 1.5vw, 1.5rem);
 	}
 
 	a.how-to-play {
@@ -224,7 +223,7 @@
 	}
 
 	.container {
-		max-width: min(100vw, 30rem);
+		max-width: min(95vw, 30rem);
 		display: grid;
 		grid-template-columns: 1fr 1fr;
 		gap: 2rem;
@@ -248,22 +247,22 @@
 			display: flex;
 			flex-direction: column;
 			justify-content: center;
-			padding: 0;
-			width: 3rem;
+			border: 1px solid #333;
 		}
 
 		.letter {
 			align-items: center;
 			background-color: white;
 			display: flex;
-			height: 3rem;
 			justify-content: center;
 			aspect-ratio: 1;
 			border: 2px solid #333;
-			font-size: 2rem;
+			// font-size: 2rem;
 			color: black;
 			border-radius: 0.5rem;
 			margin-inline: 0.5rem;
+			// width: 2rem;
+			// aspect-ratio: 1;
 
 			&:focus-within {
 				border: none;
@@ -278,9 +277,10 @@
 			outline: none;
 			text-align: center;
 			padding: 0;
+			// padding-inline: 0.125rem;
 			padding-block-end: 0.25rem;
 			margin: 0;
-			// caret-color: transparent;
+			font-size: 150%;
 
 			&:focus {
 				border: 2px solid #090;
@@ -330,10 +330,11 @@
 	}
 
 	button {
-		height: 2rem;
+		height: 1.5rem;
 		// border: none;
 		box-shadow: none;
-		width: 3rem;
+		width: 2rem;
+		width: 100%;
 
 		&.wide50 {
 			border: 2px solid #333;
@@ -384,6 +385,11 @@
 		.wordDoesNotExist {
 			animation: wiggle 0.5s;
 		}
+		.wordDoesNotExistDelay {
+			animation: wiggleDelay 0.5s;
+			// background: yellow;
+			transition-delay: 1s;
+		}
 	}
 
 	@keyframes wiggle {
@@ -407,6 +413,33 @@
 		}
 		100% {
 			transform: translateX(0);
+		}
+	}
+
+	@keyframes wiggleDelay {
+		0% {
+			transform: translateX(0);
+			opacity: 0;
+		}
+		67% {
+			transform: translateX(-2px);
+			opacity: 0;
+		}
+		73% {
+			transform: translateX(4px);
+		}
+		80% {
+			transform: translateX(-6px);
+		}
+		86% {
+			transform: translateX(+4px);
+		}
+		93% {
+			transform: translateX(-2px);
+		}
+		100% {
+			transform: translateX(0);
+			opacity: 1;
 		}
 	}
 </style>
