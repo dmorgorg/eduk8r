@@ -1,16 +1,19 @@
 <div class="container pt-4">
 	<p>
-		If you've made it this far, you're probably familiar with the semi-addictive word game Wordle.
-		(If not, just DuckDuckGo the term "Wordle" and prepare for a life-changing experience). I'm
-		going to assume that you're familiar with the game, and that you're here to learn how to use
-		this tool.
+		If you've made it this far, you're probably familiar with the semi-addictive word game <strong
+			>Wordle</strong
+		>. (If not, just DuckDuckGo the term "Wordle" and prepare for a life-changing experience). So
+		I'm going to assume that you're familiar with the game, and that you're here to learn how to use
+		this <strong>Wordle8r</strong> tool.
 	</p>
 	<p>
-		To use the tool, simply enter the feedback (colours) you received from your Wordle guess into
-		the boxes provided. The tool will then generate a list of possible words that could be the
-		solution word. You can then use this list to help you make your next guess. Should you need
-		help...
+		Start Wordle as you normally would. Make your first guess. Then, when you get feedback, enter
+		the same guess into Wordle8r and the feedback (colours) that you received from Wordle. Wordle8r
+		will then generate a list of possible words that could be the solution word. You can then use
+		this list to help you make your next guess. Should you need help... Repeat as necessary. Easy
+		peasy.
 	</p>
+
 	<p>
 		Of course, this may be considered cheating by some! And, yes, it is a good mental and vocabulary
 		exercise to solve the puzzle without any help. But, if you're stuck, or if you're just curious,
@@ -25,19 +28,35 @@
 	</p>
 	<p>
 		It won't use these obscure words for a solution, though. The second list, of around 2,300
-		'common' words, are used to choose the word of the day. Supposedly randomly. Or that was how the
-		original version of the game was designed. Now that it is owned by the New York Times, the
-		solution may be occasionally curated.
+		'common' words, are used to choose the word of the day, in random order. Or that was how the
+		original version of Josh Wardle's game was designed; now that it is owned by the New York Times,
+		the original solution set has changed a little. For example, the word "squid" was the solution
+		recently despite never being one of the 2,300 or so solutions.
 	</p>
+	<p>
+		When you look at the list of possible words for the current state of your guesses, you may
+		notice some in bold font. These represent the words originally in the solutions list. For the
+		most part, it still represents the set of possible solutions. "squid" and an unknown number of
+		other words notwithstanding.
+	</p>
+	<p><a href="/misc/w8r/"><strong>Let's Play</strong> </a></p>
 </div>
 
 <style>
 	.container {
-		max-width: min(100vw, 30rem, 50rem);
+		max-width: min(100vw, 40rem);
 		display: flex;
 		flex-direction: column;
 		font-size: 100%;
-		gap: 2rem;
+		gap: 1rem;
 		margin-inline: auto;
+		overflow-y: auto;
+		padding-inline-end: 4rem;
+	}
+	a {
+		display: flex;
+		justify-content: center;
+		color: inherit;
+		text-decoration: underline;
 	}
 </style>
