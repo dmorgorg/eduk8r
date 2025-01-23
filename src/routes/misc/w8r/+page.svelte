@@ -371,8 +371,6 @@
 					display: flex;
 					flex-direction: column;
 					width: 3rem;
-					// padding-inline: 0.25rem;
-					// border: 1px solid blue;
 				}
 
 				.letter {
@@ -382,7 +380,7 @@
 					justify-content: center;
 					aspect-ratio: 1;
 					border: 2px solid #333;
-					font-size: 1rem;
+					font-size: 1.125rem;
 
 					&:focus-within {
 						border: none;
@@ -411,6 +409,10 @@
 				.reset {
 					margin-top: 4rem;
 				}
+			}
+			.right-column {
+				width: 100%;
+				// border: 3px solid purple;
 			}
 		}
 
