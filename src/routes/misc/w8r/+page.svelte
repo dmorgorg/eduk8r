@@ -124,17 +124,17 @@
 									{#if isRowComplete(grid, row) && doesWordExist(grid, row, words) && !areAllCurrentRowStatusesSet(statuses, row)}
 										<div class="buttons" in:fade={{ duration: 500 }} out:fade={{ duration: 500 }}>
 											<button
-												class="exact mt-2"
+												class="exact mt-2 status"
 												onclick={() => setStatus(row, col, 'x')}
 												aria-label="Set to exact"
 											></button>
 											<button
-												class="near mt-2"
+												class="near mt-2 status"
 												onclick={() => setStatus(row, col, 'n')}
 												aria-label="Set to close"
 											></button>
 											<button
-												class="none mt-2"
+												class="none mt-2 status"
 												onclick={() => setStatus(row, col, 'o')}
 												aria-label="Set to absent"
 											></button>
@@ -160,11 +160,6 @@
 				{/each}
 			</div>
 			<!-- </form> -->
-			{#if currentRow > 0 || filteredPossibles.length === 1}
-				<button in:fade={{ delay: 1000, duration: 1200 }} class="wide reset mt-5" onclick={reset}
-					>Reset...</button
-				>
-			{/if}
 		</div>
 		<div class="right-column mt-3">
 			{#if isRowComplete(grid, currentRow) && !doesWordExist(grid, currentRow, words)}
@@ -195,6 +190,13 @@
 			{/if}
 		</div>
 	</div>
+	{#if currentRow > 0 || filteredPossibles.length === 1}
+		<div class="w-50">
+			<button in:fade={{ delay: 1000, duration: 1200 }} class="reset wide" onclick={reset}
+				>Reset...</button
+			>
+		</div>
+	{/if}
 </div>
 
 <style lang="scss">
@@ -223,19 +225,19 @@
 	}
 
 	.container {
-		max-width: min(95vw, 30rem);
+		max-width: min(95vw, 35rem);
 		display: grid;
 		grid-template-columns: 1fr 1fr;
 		gap: 2rem;
 		margin-inline: auto;
-		// background: pink;
+		// border: 2px solid orange;
 	}
 
 	.left-column {
 		display: flex;
 		flex-direction: column;
 		gap: 1rem;
-		// border:  solid blue; solid red;
+		// border: 2px solid greenyellow;
 
 		.row {
 			align-items: center;
@@ -244,10 +246,11 @@
 		}
 
 		.cell {
-			margin-inline: 0.25rem;
+			margin-inline: 0.125rem;
 			align-items: center;
 			display: flex;
 			flex-direction: column;
+			width: 3rem;
 		}
 
 		.letter {
@@ -257,12 +260,10 @@
 			justify-content: center;
 			aspect-ratio: 1;
 			border: 2px solid #333;
-			// font-size: 2rem;
 			color: black;
 			border-radius: 0.5rem;
 			margin-inline: 0.5rem;
 			width: 100%;
-			// aspect-ratio: 1;
 
 			&:focus-within {
 				border: none;
@@ -297,9 +298,13 @@
 		.none {
 			background-color: #aaa;
 		}
-		.reset {
-			margin-top: 4rem;
-		}
+	}
+
+	.reset {
+		// border: 2px solid #333;
+		margin-top: 14rem;
+		margin-inline: auto;
+		// width: 15rem;
 	}
 
 	.right-column {
@@ -307,6 +312,7 @@
 		display: flex;
 		flex-direction: column;
 		gap: 1rem;
+		// border: 2px solid purple;
 	}
 
 	.bold {
@@ -315,25 +321,24 @@
 	.center {
 		display: flex;
 		justify-content: center;
+		// background: pink;
+	}
+
+	button.status {
+		height: 2rem;
+		box-shadow: none;
+		width: 3rem;
+		background-color: violet;
 	}
 
 	button {
-		height: 2rem;
-		// border: none;
+		border: 2px solid #333;
+		font-size: 125%;
+		font-weight: 500;
+		// outline: none;
 		box-shadow: none;
-		width: 3rem;
-
-		&.wide {
-			border: 2px solid #333;
-			float: right;
-			font-size: 125%;
-			font-weight: 500;
-			// margin-inline: 0.25rem;
-			padding: 1.25rem;
-			padding-inline: 2.5rem;
-			vertical-align: middle;
-			width: 100%;
-		}
+		padding: 0.5rem;
+		width: 100%;
 	}
 
 	.error {
@@ -365,7 +370,7 @@
 					margin-inline: 0.075rem;
 					display: flex;
 					flex-direction: column;
-					width: 2.5rem;
+					width: 3rem;
 					// padding-inline: 0.25rem;
 					// border: 1px solid blue;
 				}
@@ -422,6 +427,9 @@
 				padding: 0.5rem;
 				padding-block-start: 0.75rem;
 				padding-block-end: 1rem;
+				width: 100%;
+			}
+			.status {
 				width: 100%;
 			}
 		}

@@ -119,3 +119,7 @@ body {
 .pb-4 {
 	padding-bottom: 1rem;
 }
+.w-50 {
+	width: 50%;
+	margin-inline: auto;
+}
