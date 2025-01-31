@@ -1,6 +1,6 @@
 <script>
 	let viewCalc = true;
-	let selectedOption = 'percentages';
+	let selectedOption = 'numbers';
 	let pv = '87';
 	let dv = '33';
 	let popnSize = '100000';
@@ -9,6 +9,7 @@
 	let numberUnvaccinated;
 	let vaccinatedDeaths;
 	let unvaccinatedDeaths;
+	let precision = 5;
 
 	let result;
 
@@ -38,7 +39,7 @@
 							bind:group={selectedOption}
 							value={option.value}
 							checked={selectedOption === option.value}
-							style="vertical-align: top"
+							class="input"
 						/>
 						{option.label}
 					</label>
@@ -46,13 +47,11 @@
 			</div>
 
 			{#if selectedOption !== 'percentages'}
-				<div style="padding-inline: 2rem; color:#0a0;">
-					(
-					<strong>Note</strong>
-					that population numbers are not required for the result but are useful to simplify the manual
-					calculation below &mdash; and to avoid the use of algebra for those who have been out of school
-					for a while!)
-				</div>
+				<blockquote>
+					Note that population numbers are not required for the result but are useful to simplify
+					the manual calculation below &mdash; and to avoid the use of algebra for those who have
+					been out of school for a while!
+				</blockquote>
 				<p></p>
 			{/if}
 
@@ -75,7 +74,16 @@
 					</div>
 					<div class="label">Percentage of the population vaccinated</div>
 					<div class="input">
-						<input type="number" id="popVaccinated" bind:value={pv} />
+						<input
+							type="number"
+							id="popVaccinated"
+							bind:value={pv}
+							on:input={() => {
+								if (pv >= 100) {
+									pv = 99;
+								}
+							}}
+						/>
 						<span>%</span>
 					</div>
 
@@ -85,7 +93,16 @@
 					</div>
 					<div class="label">Percentage of deaths that were vaccinated</div>
 					<div class="input">
-						<input type="number" id="deathsVaccinated" bind:value={dv} />
+						<input
+							type="number"
+							id="deathsVaccinated"
+							bind:value={dv}
+							on:input={() => {
+								if (dv >= 100) {
+									dv = 99;
+								}
+							}}
+						/>
 						<span>%</span>
 					</div>
 				{/if}
@@ -109,7 +126,9 @@
 							class="result"
 						>
 							{Number(
-								(((100 - Number(dv)) * Number(pv)) / (100 - Number(pv)) / Number(dv)).toFixed(2)
+								(((100 - Number(dv)) * Number(pv)) / (100 - Number(pv)) / Number(dv)).toPrecision(
+									precision - 1
+								)
 							)}
 						</span>
 						times more likely than for the vaccinated.
@@ -119,26 +138,33 @@
 		</div>
 
 		{#if selectedOption === 'percentages' && pv && dv && Number(pv) < 100 && Number(dv) < 100}
-			<div class="card">percentages</div>
+			<!-- <div class="card">percentages</div> -->
+			<div>&nbsp;</div>
 		{:else if pv && dv && Number(pv) < 100 && Number(dv) < 100 && popnSize && deathsSize}
 			<div class="card calc">
 				<h4>Calculations</h4>
 				<ul>
 					<li>
-						{pv}% of the population of {popnSize} are vaccinated.
+						{Number(Number(pv).toPrecision(precision))}% of the population of {popnSize} are vaccinated.
 						<br />
 						That is,
 						<strong>
-							{(numberVaccinated = (Number(pv) / 100) * Number(popnSize))} are vaccinated.
+							{(numberVaccinated = (Number(pv) / 100) * Number(popnSize)).toPrecision(precision)} are
+							vaccinated.
 						</strong>
 					</li>
 					<li>
-						100% - {pv}% = {(numberUnvaccinated = 100 - Number(pv))}% of the population of {popnSize}
+						100% - {Number(Number(pv).toPrecision(precision))}% = {Number(
+							(numberUnvaccinated = 100 - pv).toPrecision(precision)
+						)}% of the population of {popnSize}
 						are not vaccinated.
 						<br />
 						That is,
 						<strong>
-							{(numberUnvaccinated = ((100 - Number(pv)) / 100) * Number(popnSize))} are NOT vaccinated.
+							{(numberUnvaccinated = Number(
+								(((100 - pv) / 100) * popnSize).toPrecision(precision)
+							))}
+							{numberUnvaccinated === 1 ? 'is' : 'are'} NOT vaccinated.
 						</strong>
 					</li>
 					<li>
@@ -146,16 +172,16 @@
 						<br />
 						That is,
 						<strong>
-							{(vaccinatedDeaths = (Number(dv) / 100) * Number(deathsSize))} who died were vaccinated.
+							{(vaccinatedDeaths = (dv / 100) * deathsSize)} who died were vaccinated.
 						</strong>
 					</li>
 					<li>
-						100% - {dv}% = {(unvaccinatedDeaths = 100 - Number(dv))}% of the {Number(deathsSize)} deaths
-						were not vaccinated.
+						100% - {Number(Number(dv).toPrecision(precision))}% = {(unvaccinatedDeaths = 100 - dv)}%
+						of the {Number(deathsSize)} deaths were not vaccinated.
 						<br />
 						That is,
 						<strong>
-							{((100 - Number(dv)) / 100) * Number(deathsSize)} who died were NOT vaccinated.
+							{((100 - dv) / 100) * deathsSize} who died were NOT vaccinated.
 						</strong>
 					</li>
 					<li>
@@ -163,7 +189,8 @@
 						<br />
 						That is,
 						<strong>
-							1 in {Number(numberUnvaccinated / unvaccinatedDeaths).toFixed(2)} unvaccinated died.
+							1 in {Number((numberUnvaccinated / unvaccinatedDeaths).toPrecision(precision))} unvaccinated
+							died.
 						</strong>
 					</li>
 					<li>
@@ -171,33 +198,28 @@
 						<br />
 						That is,
 						<strong>
-							1 in {Number(numberVaccinated / vaccinatedDeaths).toFixed(2)} vaccinated died.
+							1 in {Number((numberVaccinated / vaccinatedDeaths).toPrecision(precision))} vaccinated
+							died.
 						</strong>
 					</li>
 				</ul>
-				So, unvaccinated are {Number(numberVaccinated / vaccinatedDeaths).toFixed(2)}/{Number(
-					numberUnvaccinated / unvaccinatedDeaths
-				).toFixed(2)} = {(
-					(numberVaccinated / vaccinatedDeaths / numberUnvaccinated) *
-					unvaccinatedDeaths
-				).toFixed(2)} times more likely to die than are vaccinated for these inputs.
+				<div class="resultbox">
+					So, unvaccinated are {Number(numberVaccinated / vaccinatedDeaths).toPrecision(
+						precision
+					)}/{Number(numberUnvaccinated / unvaccinatedDeaths).toPrecision(precision)} =
+					<span class="result"
+						>{(
+							(numberVaccinated / vaccinatedDeaths / numberUnvaccinated) *
+							unvaccinatedDeaths
+						).toPrecision(precision - 1)}</span
+					> times more likely to die than are vaccinated for these inputs.
+				</div>
 			</div>
 		{/if}
 	</div>
 </div>
 
-<style>
-	/* .calc h4 {
-		margin: 0;
-	} */
-	.calc ul {
-		list-style-type: none;
-		padding-inline-start: 0;
-		text-align: left;
-	}
-	.calc ul li {
-		margin-block-end: 1rem;
-	}
+<style lang="scss">
 	.result {
 		color: white;
 		background: #0a0;
@@ -210,7 +232,7 @@
 		height: 2rem;
 		margin-block: 1rem;
 		font-family: inherit;
-		font-size: 1.25rem;
+		// font-size: 1.55rem;
 		font-style: italic;
 		font-weight: bold;
 	}
@@ -232,8 +254,10 @@
 	.outer {
 		background-image: var(--gradient-19);
 		margin: 0;
-		padding: 1rem;
+		// padding: 1rem;
 		min-height: 100vh;
+		width: 100vw;
+		// overflow-x: none;
 	}
 	.wrapper {
 		display: flex;
@@ -242,10 +266,8 @@
 		flex-direction: column;
 		margin-inline: auto;
 		text-align: center;
-		max-width: 1024px;
-		padding: var(--size-3);
 		max-width: 50rem;
-		font-size: var(--font-size-fluid-0);
+		font-size: var(--font-size-fluid-3);
 	}
 
 	.wrapper h1 {
@@ -274,11 +296,66 @@
 		box-shadow: var(--shadow-6);
 		margin: 1rem;
 		padding: 1rem;
+		padding-block-end: 2rem;
 		font-family: 'AlkesRgIt', sans-serif;
-		font-size: var(--font-size-3);
+		font-size: var(--font-size-4);
 		font-style: italic;
+
+		& h4 {
+			// background: pink;
+			font-size: var(--font-size-4);
+			margin-block-end: 1rem;
+		}
+
+		.resultbox {
+			// background: pink;
+			width: 80%;
+			margin-top: 2rem;
+		}
+
+		& + .calc {
+			// width: 100%;
+			ul {
+				font-size: 1.5rem;
+				list-style-type: none;
+				margin-inline: auto;
+				padding-inline-start: 0;
+				text-align: left;
+				width: 90%;
+
+				li {
+					margin-block: 1rem;
+				}
+			}
+		}
 	}
 
+	.radioGroup {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		// background: yellow;
+
+		label.radio {
+			cursor: pointer;
+			display: inline-block;
+			margin-block: 1rem;
+			margin-inline: 2rem;
+			input {
+				vertical-align: middle;
+
+				&:hover {
+					background: #aaa;
+					// color: white;
+				}
+				&:checked {
+					background: #080;
+					// color: white;
+				}
+			}
+		}
+	}
+	// hide default styling
 	input[type='radio'] {
 		appearance: none;
 		width: 20px;
@@ -292,23 +369,19 @@
 		content: '';
 		display: block;
 		width: 60%;
-		height: 60%;
-		margin: 20% auto;
 		border-radius: 50%;
 	}
 
 	input[type='radio']:checked:before {
 		background: #080;
-	}
-	label.radio {
-		display: inline-block;
-		margin-block-end: 0.5rem;
-		margin-inline: 2rem;
-		border: 1px solid #080;
+		border-width: 4px;
 	}
 
 	input[type='number'] {
-		width: 5rem;
+		background-color: #eee;
+		border: 1px solid #333;
+		// box-shadow: var(--shadow-6);
+		width: 7rem;
 	}
 
 	input[type='number']::-webkit-outer-spin-button,
@@ -316,9 +389,16 @@
 		-webkit-appearance: none;
 		display: none;
 	}
-	h4 {
-		font-size: 1.25rem;
-		margin-block-start: 0;
+
+	blockquote {
+		padding-inline: 2rem;
+		background-color: #eee;
+		// border: 1px solid #333;
+		// border-left: 5px solid #080;
+		// border-radius: 5px;
+		color: #080;
+		margin-bottom: 1.5rem;
+		text-align: left;
 	}
 
 	@media (max-width: 600px) {
@@ -351,13 +431,9 @@
 			font-size: 120%;
 		} */
 		.radioGroup {
-			border: 1px solid red;
 			padding-block-start: 0;
 		}
-		.radioGroup h4 {
-			font-size: 1.25rem;
-			margin-block-start: 0;
-		}
+
 		.result {
 			font-size: 1.25rem;
 			padding: 0.5rem;
