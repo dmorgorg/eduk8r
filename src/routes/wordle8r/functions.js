@@ -65,7 +65,7 @@ export function doesWordExist(grid, row, words) {
 	return words.has(word);
 }
 
-export function areAllCurrentRowStatusesSet(statuses, row) {
+export function areAllRowStatusesSet(statuses, row) {
 	return statuses[row].every((cell) => cell !== '');
 }
 
