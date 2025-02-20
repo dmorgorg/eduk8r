@@ -38,7 +38,7 @@
 <div class="outer">
 	<div class="wrapper">
 		<!-- <h1 class="card drawn1">Alcohol Units Calculator</h1> -->
-		<h1 class="card drawn1">UK.Units Alcohol.Calculator</h1>
+		<h1 class="card drawn1">U.K.Units Alcohol Calculator</h1>
 		<button onclick={toggleView}>
 			{#if viewCalc}<span class="bigly">&larr;</span>
 				Show Explanation
