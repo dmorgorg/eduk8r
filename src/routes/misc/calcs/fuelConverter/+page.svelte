@@ -111,6 +111,7 @@
 		letter-spacing: 0.125rem;
 		padding-inline: 2rem;
 		margin: 0;
+		text-align: center;
 		-webkit-text-stroke: black 0.5px;
 		word-spacing: 0;
 	}
