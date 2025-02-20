@@ -259,29 +259,43 @@
 
 	input[type='radio'] {
 		appearance: none;
-		background-color: var(--sand-2);
-		width: 1.4rem;
-		height: 1.4rem;
-		margin-top: 0.2rem;
+		background-color: var(--sand-1);
+		margin: 0;
+		font: inherit;
+		color: currentColor;
+		width: 1.15em;
+		height: 1.15em;
+		border: 0.09em solid currentColor;
 		border-radius: 50%;
-		border: 0.2rem solid var(--sand-7);
-		/* outline: none; */
+		transform: translateY(1.25em) translateX(-1.25em);
+		display: grid;
+		place-content: center;
 	}
 
-
-
-	input[type='radio']:checked {
-		background-color: #900;
+	input[type='radio']::before {
+		content: '';
+		width: 0.65em;
+		height: 0.65em;
+		border-radius: 50%;
+		transform: scale(0);
+		transition: 120ms transform ease-in-out;
+		box-shadow: inset 1em 1em #900;
 	}
+
+	input[type='radio']:checked::before {
+		transform: scale(1);
+	}
+
 	label.radio {
 		display: inline-block;
-		margin-block-end: 2rem;
+		margin-block-end: 4rem;
 		margin-inline: 2rem;
 	}
 
 	input[type='number'] {
 		width: 7rem;
-		background-color: var(--sand-2);
+		background-color: var(--sand-1);
+		border: 0.09em solid black;
 	}
 
 	input[type='number']::-webkit-outer-spin-button,
