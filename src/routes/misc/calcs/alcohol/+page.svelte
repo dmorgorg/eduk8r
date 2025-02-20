@@ -38,7 +38,7 @@
 <div class="outer">
 	<div class="wrapper">
 		<!-- <h1 class="card drawn1">Alcohol Units Calculator</h1> -->
-		<h1 class="card drawn1">UK &middot; Units &middot; Alcohol &middot; Calculator</h1>
+		<h1 class="card drawn1">UK.Units Alcohol.Calculator</h1>
 		<button onclick={toggleView}>
 			{#if viewCalc}<span class="bigly">&larr;</span>
 				Show Explanation
@@ -259,24 +259,19 @@
 
 	input[type='radio'] {
 		appearance: none;
-		width: 20px;
-		height: 20px;
-		border: 2px solid #333;
+		background-color: var(--sand-2);
+		width: 1.4rem;
+		height: 1.4rem;
+		margin-top: 0.2rem;
 		border-radius: 50%;
-		outline: none;
+		border: 0.2rem solid var(--sand-7);
+		/* outline: none; */
 	}
 
-	input[type='radio']:before {
-		content: '';
-		display: block;
-		width: 60%;
-		height: 60%;
-		margin: 20% auto;
-		border-radius: 50%;
-	}
 
-	input[type='radio']:checked:before {
-		background: #900;
+
+	input[type='radio']:checked {
+		background-color: #900;
 	}
 	label.radio {
 		display: inline-block;
@@ -285,13 +280,17 @@
 	}
 
 	input[type='number'] {
-		width: 5rem;
+		width: 7rem;
+		background-color: var(--sand-2);
 	}
 
 	input[type='number']::-webkit-outer-spin-button,
 	input[type='number']::-webkit-inner-spin-button {
 		-webkit-appearance: none;
 		display: none;
+	}
+	h4 {
+		margin-block-end: 1rem;
 	}
 
 	@media (max-width: 600px) {
