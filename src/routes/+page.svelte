@@ -6,7 +6,7 @@
 			<a href="/misc/calcs/vaccine">Vaccine Efficacy Calculator</a>
 			<a href="/misc/calcs/fuelConverter">Metric/Imperial Fuel Converter</a>
 			<!-- <a href="/misc/calcs/flab">Flab Aghast! BMI/BMR Calculator</a> -->
-			<a href="/misc/wordle8r">Wordle8r</a>
+			<a href="/misc/wordle8r">Wordle8r (it's fun)</a>
 		</div>
 	</div>
 </div>
